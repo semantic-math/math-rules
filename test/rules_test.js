@@ -122,7 +122,6 @@ describe('applyRules', () => {
             ['x^((x + 1) * 1)', 'x^(x + 1)'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.REMOVE_MULTIPLYING_BY_ONE, t[0]), t[1]));
-
     });
     it('remove multiplying by one reverse', () => {
         const tests = [
@@ -132,29 +131,36 @@ describe('applyRules', () => {
             ['x^(1 * (x + 1))', 'x^(x + 1)'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.REMOVE_MULTIPLYING_BY_ONE_REVERSE, t[0]), t[1]));
-
     });
-
-    // null node error
-    it('resolve double minus', () => {
+    it.skip('resolve double minus', () => {
         const tests = [
             ['2 - -1', '2 + 1'],
-            //['0 / X', '0'],
-            //['0 / (x + 1)', '0'],
-            //['x^(0 / (x + 1))', 'x^0'],
+            ['x - -1', 'x + 1'],
+            //['(x + 1) - -1', '(x + 1) + 1'],
+            //['x^((x + 1) - -1)', 'x^((x + 1) + 1)'],
         ];
-        tests.forEach(t =>assert.equal(applyRuleString(rules.RESOLVE_DOUBLE_MINUS, t[0]), t[1]));
+        tests.forEach(t => assert.equal(applyRuleString(rules.RESOLVE_DOUBLE_MINUS, t[0]), t[1]));
+    });
+    it.skip('multiplying negatives', () => {
+        const tests = [
+            ['-2 * -1', '2 * 1'],
+            ['-x * -1', 'x * 1'],
+            ['-(x + 1) * -1', '(x + 1) * 1'],
+            ['x^(-(x + 1) * -1)', 'x^((x + 1) * 1)'],
+        ];
+        tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_NEGATIVES, t[0]), t[1]));
+    });
+    it('remove multiplying by negative one', () => {
+        const tests = [
+            ['2 * -1', '-2'],
+            ['x * -1', '-x'],
+            ['(x + 1) * -1', '-(x + 1)'],
+            ['x^((x + 1) * -1)', 'x^(-(x + 1))'],
+        ];
+        tests.forEach(t => assert.equal(applyRuleString(rules.REMOVE_MULTIPLYING_BY_NEGATIVE_ONE, t[0]), t[1]));
     });
 
     /*
-    it.skip('multiplying negatives', () => {
-        assert.equal(applyRuleString(rules.MULTIPLY_NEGATIVES, t[0]), t[1]);
-    });
-
-    it('remove multiplying by negative one', () => {
-        assert.equal(applyRuleString(rules.REMOVE_MULTIPLYING_BY_NEGATIVE_ONE, t[0]), t[1]);
-    });
-
     it.skip('cancel minuses', () => {
         assert.equal(applyRuleString(rules.CANCEL_MINUSES, t[0]), t[1]);
     });
