@@ -40,8 +40,26 @@ const applyRuleString = (rule, input) => print(applyRule(rule, parse(input)))
 
 const populatePatternString = (pattern, placeholders) => populatePattern(parse(pattern), placeholders)
 
+const isNeg = node => node.type === 'Apply' && node.op === 'neg'
 const isFunction = (val) => typeof val === 'function'
-const isNumber = node => node.type === 'Number'
+const isNumber = node => {
+    if (node.type === 'Number') {
+        return true
+    } else if (isNeg(node)) {
+        return isNumber(node.args[0])
+    } else {
+        return false
+    }
+}
+const isIdentifier = node => node.type === 'Identifier'
+
+const getValue = node => {
+    if (node.type === 'Number') {
+        return parseFloat(node.value)
+    } else if (isNeg(node)) {
+        return -getValue(node.args[0])
+    }
+}
 const isAdd = node => node && node.type === 'Apply' && node.op === 'add'
 
 describe('matcher', () => {
@@ -204,6 +222,105 @@ describe('matcher', () => {
             assert.equal(
                 applyRuleString(rule, '(a - b) (x^2 + 2x + 1)'),
                 '(a - b) x^2 + (a - b) 2 x + (a - b) 1')
+        })
+
+        it('should evaluate sums of numbers', () => {
+            const rule = defineRuleString(
+                '#a',
+                // TODO: use evaluate from node-parser
+                // TODO: add a special 'eval' node so that we do '#eval(#a)'
+                ({a}) => nodes.numberNode(
+                    a.args.reduce((total, arg) => total + getValue(arg), 0)),
+                {
+                    a: (a) => isAdd(a) && a.args.every(isNumber)
+                },
+            )
+
+            assert.equal(applyRuleString(rule, '(1 - 2 + 3) x'), '2 x')
+            assert.equal(applyRuleString(rule, '(1 + 2 + 3) x'), '6 x')
+        })
+
+        // collect like terms: x + 5 + 2x - 3
+        // should be able to collect the x's and numbers even though they aren't
+        // adjacent.  We need to determine:
+        // - coefficients
+        // - factors
+        // - determine which sets of factors are equivalent, e.g. x, y === y, x
+
+        // TODO(kevinb) figure out how to formulate this as a rule
+        it('should add numeric exponents', () => {
+
+            const input = '2x + 7y + 5 + 3y + 9x + 11'
+            const ast = parse(input)
+
+            // matchNode matches the current node
+            // matchNodeInTree tries to match against any node in the tree
+            // maybe there's an option on matchNodeInTree to not recurse
+
+            const pattern = parse('#a #x')
+            const constantPattern = parse('#a')
+
+            // TODO: include the constraints in the pattern
+            const coefficientMap = {}
+            const constants = []
+
+            ast.args.forEach(arg => {
+                let results
+
+                results = matchNode(pattern, arg, { x: isIdentifier, a: isNumber })
+
+                if (results) {
+                    const {placeholders} = results
+
+                    const clone = { ...placeholders.x }
+
+                    delete clone.loc
+
+                    // this is to handle x^2 etc.
+                    const key = JSON.stringify(clone)
+
+                    if (!(key in coefficientMap)) {
+                        coefficientMap[key] = []
+                    }
+
+                    coefficientMap[key].push(placeholders.a)
+                }
+
+                results = matchNode(constantPattern, arg, { a: isNumber })
+
+                if (results) {
+                    constants.push(arg)
+                }
+            })
+
+            // canonical representation of a term
+            // it's all about ordering
+            // ordering of factors with in a term is alphabetic
+            // order terms with an epxression is by highest order to lowest
+
+            const result = nodes.applyNode(
+                'add',
+                Object.keys(coefficientMap).sort().map(key => {
+                    const coeffs = coefficientMap[key]
+                    const variable = JSON.parse(key)
+
+                    const terms = coeffs.map(coeff =>
+                        populatePatternString('#a #x', {
+                            a: coeff,
+                            x: variable,  // it's okay to reuse b/c populatePattern clones
+                        })
+                    )
+
+                    return terms.length > 1
+                        ? nodes.applyNode('add', terms)
+                        : terms[0]
+                }))
+
+            if (constants.length > 0) {
+                result.args.push(nodes.applyNode('add', constants))
+            }
+
+            assert.equal(print(result), '(2 x + 9 x) + (7 y + 3 y) + (5 + 11)')
         })
     })
 })
