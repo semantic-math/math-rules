@@ -1,7 +1,12 @@
-import assert from 'assert'; import {parse, print} from 'math-parser'; import * as nodes from 
-'../lib/nodes'; import {applyRule} from '../lib/matcher.js'; import rules from 
-'../lib/rules.js'; const applyRuleString = (rule, input) => print(applyRule(rule, 
-parse(input))); describe('applyRules', () => {
+import assert from 'assert'; 
+import {parse, print} from 'math-parser'; 
+
+import * as nodes from '../lib/nodes'; 
+import {applyRule} from '../lib/matcher.js'; 
+import rules from '../lib/rules.js'; 
+const applyRuleString = (rule, input) => print(applyRule(rule, parse(input))); 
+
+describe('applyRules', () => {
   it('negation', () => {
     assert.equal(applyRuleString(rules.NEGATION, '--x'), 'x');
   });
