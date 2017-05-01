@@ -15,14 +15,14 @@ describe('applyRules', () => {
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.NEGATION, t[0]), t[1]));
     });
-    it.skip('division by negative one', () => {
+    it('division by negative one', () => {
         const tests = [
             ['2 / -1','-2'],
             ['x / -1','-x'],
             ['(x + 1) / -1', '-(x + 1)'],
-            ['x ^ (2 / -1)', 'x ^ -2'],
+            ['x ^ (2 / -1)', 'x^-2'],
         ];
-        tests.forEach(t => test(applyRuleString(rules.DIVISION_BY_NEGATIVE_ONE ,t[0]), t[1]));
+        tests.forEach(t => assert.equal(applyRuleString(rules.DIVISION_BY_NEGATIVE_ONE ,t[0]), t[1]));
     });
     it('division by one', () => {
         const tests = [
@@ -105,7 +105,7 @@ describe('applyRules', () => {
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.REMOVE_EXPONENT_BASE_ONE, t[0]), t[1]));
     });
-    it.skip('remove multiplying by negative one', () => {
+    it('remove multiplying by negative one', () => {
         const tests = [
             ['2 * -1', '-2'],
             ['x * -1', '-x'],
@@ -132,21 +132,22 @@ describe('applyRules', () => {
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.REMOVE_MULTIPLYING_BY_ONE_REVERSE, t[0]), t[1]));
     });
-    it.skip('resolve double minus', () => {
+    it('resolve double minus', () => {
         const tests = [
             ['2 - -1', '2 + 1'],
             ['x - -1', 'x + 1'],
-            //['(x + 1) - -1', '(x + 1) + 1'],
-            //['x^((x + 1) - -1)', 'x^((x + 1) + 1)'],
+            ['(x + 1) - -1', '(x + 1) + 1'],
+            ['x^((x + 1) - -1)', 'x^((x + 1) + 1)'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.RESOLVE_DOUBLE_MINUS, t[0]), t[1]));
     });
-    it.skip('multiplying negatives', () => {
+    it('multiplying negatives', () => {
         const tests = [
             ['-2 * -1', '2 * 1'],
             ['-x * -1', 'x * 1'],
             ['-(x + 1) * -1', '(x + 1) * 1'],
-            ['x^(-(x + 1) * -1)', 'x^((x + 1) * 1)'],
+            // no parens
+            ['x^(-(x + 1) * -1)', 'x^(x + 1) * 1'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_NEGATIVES, t[0]), t[1]));
     });
@@ -155,34 +156,71 @@ describe('applyRules', () => {
             ['2 * -1', '-2'],
             ['x * -1', '-x'],
             ['(x + 1) * -1', '-(x + 1)'],
-            ['x^((x + 1) * -1)', 'x^(-(x + 1))'],
+            ['x^((x + 1) * -1)', 'x^-(x + 1)'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.REMOVE_MULTIPLYING_BY_NEGATIVE_ONE, t[0]), t[1]));
     });
-
-    /*
-    it.skip('cancel minuses', () => {
-        assert.equal(applyRuleString(rules.CANCEL_MINUSES, t[0]), t[1]);
+    it('cancel minuses', () => {
+        const tests = [
+            ['-2 / -1', '2 / 1'],
+            ['-x / -1', 'x / 1'],
+            // extra paren
+            ['-(x + 1) / -1', '((x + 1)) / 1'],
+            // no paren
+            ['x^(-(x + 1) / -1)', 'x^((x + 1)) / 1'],
+        ];
+        tests.forEach(t => assert.equal(applyRuleString(rules.CANCEL_MINUSES, t[0]), t[1]));
     });
     it.skip('simplify signs', () => {
-        assert.equal(applyRuleString(rules.SIMPLIFY_SIGNS, t[0]), t[1]);
+        const tests = [
+            ['2 - -1', '2 + 1'],
+            ['x - -1', 'x + 1'],
+            ['(x + 1) - -1', '(x + 1) + 1'],
+            ['x^((x + 1) - -1)', 'x^(x + 1) + 1'],
+        ];
+        tests.forEach(t => assert.equal(applyRuleString(rules.SIMPLIFY_SIGNS, t[0]), t[1]));
     });
 
     //doesn't register parenthesis?
-
-    it.skip('multiply fractions', () => {
-        assert.equal(applyRuleString(rules.MULTIPLY_FRACTIONS, t[0]), t[1]);
+    it('multiply fractions', () => {
+        const tests = [
+            ['2 / 3 * 2 / 3', '2 * 2 / 3 * 3'],
+            ['x / 2 * x / 2', 'x * x / 2 * 2'],
+            ['(x + 1) / 2 * (x + 1) / 2', '(x + 1) * (x + 1) / 2 * 2'],
+            // no parens
+            ['x^((x + 1) / 2 * (x + 1) / 2)', 'x^(x + 1) * (x + 1) / 2 * 2'],
+        ];
+        tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_FRACTIONS, t[0]), t[1]));
     });
-    it.skip('simplfy division', () => {
-        assert.equal(applyRuleString(rules.SIMPLIFY_DIVISION, t[0]), t[1]);
+    it('simplfy division', () => {
+        const tests = [
+            // no paren
+            ['2 / 3 / 4', '2 / 3 * 4'],
+            ['x / 2 / 2', 'x / 2 * 2'],
+            // extra parens
+            ['(x + 1) / 2 / (x + 1)', '((x + 1)) / 2 * (x + 1)'],
+            ['x^((x + 1) / 2 / 2)', 'x^((x + 1)) / 2 * 2'],
+        ];
+        tests.forEach(t => assert.equal(applyRuleString(rules.SIMPLIFY_DIVISION, t[0]), t[1]));
     });
-    it.skip('multiply by inverse', () => {
-        assert.equal(applyRuleString(rules.MULTIPLY_BY_INVERSE, t[0], t[1]);
+    it('multiply by inverse', () => {
+        const tests = [
+            // loses parens
+            ['2 / (3 / 4)', '2 * 4 / 3'],
+            ['x / (2 / 2)', 'x * 2 / 2'],
+            ['(x + 1) / (2 / (x + 1))', '(x + 1) * ((x + 1)) / 2'],
+            ['x^((x + 1) / (2 / 2))', 'x^(x + 1) * 2 / 2'],
+        ];
+        tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_BY_INVERSE, t[0]), t[1]));
     });
-
-
-    it.skip('absolute value', () => {
-        assert.equal(applyRuleString(rules.ABSOLUTE_VALUE, t[0]), t[1]);
+    it('absolute value', () => {
+        const tests = [
+            // no paren
+            ['|-2|', '2'],
+            ['|-x|', 'x'],
+            ['|-(x + 1)|', 'x + 1'],
+            ['x^(|-(x + 1)|)', 'x^(x + 1)'],
+        ];
+        tests.forEach(t => assert.equal(applyRuleString(rules.ABSOLUTE_VALUE, t[0]), t[1]));
     });
-    */
 });
