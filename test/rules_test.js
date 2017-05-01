@@ -200,4 +200,3 @@ describe('applyRules', () => {
         ]
         tests.forEach(t => assert.equal(applyRuleString(rules.ABSOLUTE_VALUE, t[0]), t[1]))
     })
-})
