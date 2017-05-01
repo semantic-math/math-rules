@@ -105,7 +105,7 @@ describe('applyRules', () => {
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.REMOVE_EXPONENT_BASE_ONE, t[0]), t[1]));
     });
-    it.skip('remove multiplying by negative one', () => {
+    it('remove multiplying by negative one', () => {
         const tests = [
             ['2 * -1', '-2'],
             ['x * -1', '-x'],
@@ -149,15 +149,6 @@ describe('applyRules', () => {
             ['x^(-(x + 1) * -1)', 'x^((x + 1) * 1)'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_NEGATIVES, t[0]), t[1]));
-    });
-    it('remove multiplying by negative one', () => {
-        const tests = [
-            ['2 * -1', '-2'],
-            ['x * -1', '-x'],
-            ['(x + 1) * -1', '-(x + 1)'],
-            ['x^((x + 1) * -1)', 'x^(-(x + 1))'],
-        ];
-        tests.forEach(t => assert.equal(applyRuleString(rules.REMOVE_MULTIPLYING_BY_NEGATIVE_ONE, t[0]), t[1]));
     });
 
     /*
