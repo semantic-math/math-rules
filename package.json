@@ -23,6 +23,6 @@
   "pre-commit": ["lint"],
   "scripts": {
     "test": "mocha test --compilers js:babel-register",
-    "lint": "eslint ./ --cache --ignore-pattern .gitignore" 
+    "lint": "eslint . --cache --ignore-pattern .gitignore" 
   }
 }
