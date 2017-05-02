@@ -171,17 +171,16 @@ describe('applyRules', () => {
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.CANCEL_MINUSES, t[0]), t[1]));
     });
-    it.skip('simplify signs', () => {
+    //doesn't register parenthesis?
+    it('simplify signs', () => {
         const tests = [
-            ['2 - -1', '2 + 1'],
-            ['x - -1', 'x + 1'],
-            ['(x + 1) - -1', '(x + 1) + 1'],
-            ['x^((x + 1) - -1)', 'x^(x + 1) + 1'],
+            ['2 / -1', '-2 / 1'],
+            ['x / -1', '-x / 1'],
+            ['(x + 1) / -1', '-(x + 1) / 1'],
+            ['x^((x + 1) / -1)', 'x^-(x + 1) / 1'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.SIMPLIFY_SIGNS, t[0]), t[1]));
     });
-
-    //doesn't register parenthesis?
     it('multiply fractions', () => {
         const tests = [
             ['2 / 3 * 2 / 3', '2 * 2 / 3 * 3'],
