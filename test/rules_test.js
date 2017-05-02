@@ -10,7 +10,7 @@ const applyRuleString = (rule, input) => print(applyRule(rule, parse(input)));
 describe('applyRules', () => {
     it('negation', () => {
         const tests = [
-            //['--1','1'],
+            ['--1','1'],
             ['--x','x'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.NEGATION, t[0]), t[1]));
@@ -164,14 +164,11 @@ describe('applyRules', () => {
         const tests = [
             ['-2 / -1', '2 / 1'],
             ['-x / -1', 'x / 1'],
-            // extra paren
             ['-(x + 1) / -1', '((x + 1)) / 1'],
-            // no paren
             ['x^(-(x + 1) / -1)', 'x^((x + 1)) / 1'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.CANCEL_MINUSES, t[0]), t[1]));
     });
-    //doesn't register parenthesis?
     it('simplify signs', () => {
         const tests = [
             ['2 / -1', '-2 / 1'],
@@ -186,17 +183,14 @@ describe('applyRules', () => {
             ['2 / 3 * 2 / 3', '2 * 2 / 3 * 3'],
             ['x / 2 * x / 2', 'x * x / 2 * 2'],
             ['(x + 1) / 2 * (x + 1) / 2', '(x + 1) * (x + 1) / 2 * 2'],
-            // no parens
             ['x^((x + 1) / 2 * (x + 1) / 2)', 'x^(x + 1) * (x + 1) / 2 * 2'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_FRACTIONS, t[0]), t[1]));
     });
     it('simplfy division', () => {
         const tests = [
-            // no paren
             ['2 / 3 / 4', '2 / 3 * 4'],
             ['x / 2 / 2', 'x / 2 * 2'],
-            // extra parens
             ['(x + 1) / 2 / (x + 1)', '((x + 1)) / 2 * (x + 1)'],
             ['x^((x + 1) / 2 / 2)', 'x^((x + 1)) / 2 * 2'],
         ];
@@ -204,7 +198,6 @@ describe('applyRules', () => {
     });
     it('multiply by inverse', () => {
         const tests = [
-            // loses parens
             ['2 / (3 / 4)', '2 * 4 / 3'],
             ['x / (2 / 2)', 'x * 2 / 2'],
             ['(x + 1) / (2 / (x + 1))', '(x + 1) * ((x + 1)) / 2'],
@@ -214,7 +207,6 @@ describe('applyRules', () => {
     });
     it('absolute value', () => {
         const tests = [
-            // no paren
             ['|-2|', '2'],
             ['|-x|', 'x'],
             ['|-(x + 1)|', 'x + 1'],
