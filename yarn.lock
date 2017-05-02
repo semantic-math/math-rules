@@ -1521,19 +1521,15 @@ loose-envify@^1.0.0:
   dependencies:
     js-tokens "^3.0.0"
 
-math-parser@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.3.0.tgz#64b2dde1b78b912942d9164d2637e0ba82d85d0e"
+math-parser@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.4.0.tgz#12e90b9cbb2a6ff0ab58e2ef9b011d914a572089"
   dependencies:
-    math-traverse "^0.1.0"
+    math-traverse "^0.2.0"
 
-math-traverse@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.1.0.tgz#846413bf516ea94f75d961238a13352dea1f15e0"
-
-math-traverse@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.1.1.tgz#9a3e970ed65f580993ba7c193da7b333e1fd87bb"
+math-traverse@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.2.0.tgz#56ab6cc86a32ecb24b8fdffb3c7e3527b7adc292"
 
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
