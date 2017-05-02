@@ -42,7 +42,7 @@ const populatePatternString = (pattern, placeholders) => populatePattern(parse(p
 
 const isFunction = (val) => typeof val === 'function'
 const isNumber = node => node.type === 'Number'
-const isAdd = node => node && node.type === 'Operation' && node.op === 'add'
+const isAdd = node => node && node.type === 'Apply' && node.op === 'add'
 
 describe('matcher', () => {
     describe('matchNode', () => {
@@ -191,7 +191,7 @@ describe('matcher', () => {
         it('should apply rules with a rewrite callback', () => {
             const rule = defineRuleString(
                 '#a #b',
-                ({a, b}) => nodes.operationNode(
+                ({a, b}) => nodes.applyNode(
                     'add',
                     b.args.map(arg => populatePatternString('#a #arg', {a, arg}))
                 ),
