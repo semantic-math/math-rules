@@ -146,7 +146,6 @@ describe('applyRules', () => {
             ['-2 * -1', '2 * 1'],
             ['-x * -1', 'x * 1'],
             ['-(x + 1) * -1', '(x + 1) * 1'],
-            // no parens
             ['x^(-(x + 1) * -1)', 'x^(x + 1) * 1'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_NEGATIVES, t[0]), t[1]));
@@ -164,8 +163,8 @@ describe('applyRules', () => {
         const tests = [
             ['-2 / -1', '2 / 1'],
             ['-x / -1', 'x / 1'],
-            ['-(x + 1) / -1', '((x + 1)) / 1'],
-            ['x^(-(x + 1) / -1)', 'x^((x + 1)) / 1'],
+            ['-(x + 1) / -1', '(x + 1) / 1'],
+            ['x^(-(x + 1) / -1)', 'x^(x + 1) / 1'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.CANCEL_MINUSES, t[0]), t[1]));
     });
@@ -180,19 +179,19 @@ describe('applyRules', () => {
     });
     it('multiply fractions', () => {
         const tests = [
-            ['2 / 3 * 2 / 3', '2 * 2 / 3 * 3'],
-            ['x / 2 * x / 2', 'x * x / 2 * 2'],
-            ['(x + 1) / 2 * (x + 1) / 2', '(x + 1) * (x + 1) / 2 * 2'],
-            ['x^((x + 1) / 2 * (x + 1) / 2)', 'x^(x + 1) * (x + 1) / 2 * 2'],
+            ['2 / 3 * 2 / 3', '(2 * 2) / (3 * 3)'],
+            ['x / 2 * x / 2', '(x * x) / (2 * 2)'],
+            ['(x + 1) / 2 * (x + 1) / 2', '((x + 1) * (x + 1)) / (2 * 2)'],
+            ['x^((x + 1) / 2 * (x + 1) / 2)', 'x^((x + 1) * (x + 1)) / (2 * 2)'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_FRACTIONS, t[0]), t[1]));
     });
-    it('simplfy division', () => {
+    it('simplify division', () => {
         const tests = [
-            ['2 / 3 / 4', '2 / 3 * 4'],
-            ['x / 2 / 2', 'x / 2 * 2'],
-            ['(x + 1) / 2 / (x + 1)', '((x + 1)) / 2 * (x + 1)'],
-            ['x^((x + 1) / 2 / 2)', 'x^((x + 1)) / 2 * 2'],
+            ['2 / 3 / 4', '2 / (3 * 4)'],
+            ['x / 2 / 2', 'x / (2 * 2)'],
+            ['(x + 1) / 2 / (x + 1)', '(x + 1) / (2 * (x + 1))'],
+            ['x^((x + 1) / 2 / 2)', 'x^(x + 1) / (2 * 2)'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.SIMPLIFY_DIVISION, t[0]), t[1]));
     });
@@ -200,7 +199,7 @@ describe('applyRules', () => {
         const tests = [
             ['2 / (3 / 4)', '2 * 4 / 3'],
             ['x / (2 / 2)', 'x * 2 / 2'],
-            ['(x + 1) / (2 / (x + 1))', '(x + 1) * ((x + 1)) / 2'],
+            ['(x + 1) / (2 / (x + 1))', '(x + 1) * (x + 1) / 2'],
             ['x^((x + 1) / (2 / 2))', 'x^(x + 1) * 2 / 2'],
         ];
         tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_BY_INVERSE, t[0]), t[1]));
