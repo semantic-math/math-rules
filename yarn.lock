@@ -1521,9 +1521,9 @@ loose-envify@^1.0.0:
   dependencies:
     js-tokens "^3.0.0"
 
-math-parser@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.4.0.tgz#12e90b9cbb2a6ff0ab58e2ef9b011d914a572089"
+math-parser@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.4.1.tgz#733adfeb4774907eb97421106957c6bebc8428db"
   dependencies:
     math-traverse "^0.2.0"
 
