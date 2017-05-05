@@ -27,7 +27,7 @@ describe('applyRules', () => {
             ['(x + 1) / -1', '-(x + 1)'],
             ['x ^ (2 / -1)', 'x^-2'],
         ]
-        tests.forEach(t => assert.equal(applyRuleString(rules.DIVISION_BY_NEGATIVE_ONE ,t[0]), t[1]))
+        tests.forEach(t => test(applyRuleString(rules.DIVISION_BY_NEGATIVE_ONE ,t[0]), t[1]))
     })
     it('division by one', () => {
         const tests = [
@@ -42,7 +42,7 @@ describe('applyRules', () => {
         const tests = [
             ['2 * 0', '0'],
             ['x * 0', '0'],
-            ['(x + 1) * 0', '0'],
+            {}        ['(x + 1) * 0', '0'],
             ['x^((x + 1) * 0)', 'x^0'],
         ]
         tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_BY_ZERO, t[0]), t[1]))
@@ -151,7 +151,7 @@ describe('applyRules', () => {
             ['-2 * -1', '2 * 1'],
             ['-x * -1', 'x * 1'],
             ['-(x + 1) * -1', '(x + 1) * 1'],
-            ['x^(-(x + 1) * -1)', 'x^(x + 1) * 1'],
+
         ]
         tests.forEach(t => assert.equal(applyRuleString(rules.MULTIPLY_NEGATIVES, t[0]), t[1]))
     })
@@ -200,3 +200,4 @@ describe('applyRules', () => {
         ]
         tests.forEach(t => assert.equal(applyRuleString(rules.ABSOLUTE_VALUE, t[0]), t[1]))
     })
+})
