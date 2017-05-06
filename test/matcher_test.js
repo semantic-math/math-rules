@@ -61,8 +61,8 @@ describe('matcher', () => {
 
     describe('match', () => {
         it('should return false for sub-expressions not in add and mul nodes', () => {
-            assert.equal(matchNode(parse('4 + 5'), parse('1 + 2 + 3')), false)
-            assert.equal(matchNode(parse('4 * 5'), parse('1 * 2 * 3')), false)
+            assert.equal(matchNode(parse('4 + 5'), parse('1 + 2 + 3')), null)
+            assert.equal(matchNode(parse('4 * 5'), parse('1 * 2 * 3')), null)
         })
 
         it('should find a match for a sub-expression pattern in add and mul nodes', () => {
@@ -90,8 +90,8 @@ describe('matcher', () => {
             const result = matchString('#a + #b', '2 * a + 3 * b ^ 2')
             assert(result)
             const { node } = result
-            assert.equal(matchNode(node.args[0], parse('2 * a')), true)
-            assert.equal(matchNode(node.args[1], parse('3 * b ^ 2')), true)
+            assert(matchNode(node.args[0], parse('2 * a')))
+            assert(matchNode(node.args[1], parse('3 * b ^ 2')))
         })
 
         it('should match patterns including constants', () => {
