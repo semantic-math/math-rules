@@ -6,12 +6,12 @@
   "author": "Kevin Barabash <kevinb7@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "math-parser": "^0.4.1",
+    "math-parser": "^0.4.2",
     "math-traverse": "^0.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
@@ -20,9 +20,11 @@
     "pre-commit": "^1.1.3",
     "webpack": "^2.4.1"
   },
-  "pre-commit": ["lint"],
+  "pre-commit": [
+    "lint"
+  ],
   "scripts": {
     "test": "mocha test --compilers js:babel-register",
-    "lint": "eslint . --cache --ignore-pattern .gitignore" 
+    "lint": "eslint . --cache --ignore-pattern .gitignore"
   }
 }
