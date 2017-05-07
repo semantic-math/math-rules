@@ -1915,9 +1915,9 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
 
-math-parser@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.4.2.tgz#214cf88c91407f3e7e19e4c5210d9022de1f86e6"
+math-parser@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.4.4.tgz#2ef46a32dd45c14523b1aeba8be2063e373b5414"
   dependencies:
     math-traverse "^0.2.0"
 
