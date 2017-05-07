@@ -19,8 +19,6 @@ import {
     populatePattern,
 } from '../lib/matcher'
 
-import collectLikeTermsRule from '../lib/rules/collect-like-terms'
-
 // returns the rewritten string
 const rewriteString = (matchPattern, rewritePattern, input) => {
     const rule = defineRuleString(matchPattern, rewritePattern)
@@ -227,16 +225,6 @@ describe('matcher', () => {
 
             assert.equal(applyRuleString(rule, '(1 - 2 + 3) x'), '2 x')
             assert.equal(applyRuleString(rule, '(1 + 2 + 3) x'), '6 x')
-        })
-
-        it('should collect like terms', () => {
-
-            const input = '2x + 7y + 5 + 3y + 9x + 11'
-            const ast = parse(input)
-
-            const result = print(applyRule(collectLikeTermsRule, parse(input)))
-
-            assert.equal(result, '(2 x + 9 x) + (7 y + 3 y) + (5 + 11)')
         })
     })
 })

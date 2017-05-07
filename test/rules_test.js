@@ -2,8 +2,9 @@ import assert from 'assert'
 import {parse, print} from 'math-parser'
 
 import * as nodes from '../lib/nodes'
-import {applyRule} from '../lib/matcher.js'
+import {applyRule, canApplyRule} from '../lib/matcher.js'
 import rules from '../lib/rules.js'
+import collectLikeTermsRule from '../lib/rules/collect-like-terms'
 
 const applyRuleString = (rule, input) => print(applyRule(rule, parse(input)))
 
@@ -217,5 +218,25 @@ describe('applyRules', () => {
             ['x^(|-(x + 1)|)', 'x^(x + 1)'],
         ]
         tests.forEach(t => assert.equal(applyRuleString(rules.ABSOLUTE_VALUE, t[0]), t[1]))
+    })
+    it('collects like terms', () => {
+        const tests = [
+            ['2x + 1 - 2x', '(2 x + -2 x) + 1'],
+            ['2x + 1 - x', '(2 x + -x) + 1'],
+            ['x^2 + 1 + x^2', '(x^2 + x^2) + 1'],
+            ['x^y + 1 + x^y', '(x^y + x^y) + 1'],
+            ['xy + 1 + xy', '(xy + xy) + 1'],
+            // ['xy + 1 + yx', '(xy + xy) + 1'],  // TODO: this case should pass
+            ['x^2 + 2x^2 - 3x^3 - 4x^3', '(x^2 + 2 x^2) + (-3 x^3 + -4 x^3)'],
+            ['2x + 7y + 5 + 3y + 9x + 11', '(2 x + 9 x) + (7 y + 3 y) + (5 + 11)'],
+        ]
+
+        assert.equal(canApplyRule(collectLikeTermsRule, parse('x + 1')), false)
+
+        tests.forEach(t => {
+            const ast = parse(t[0])
+            const result = print(applyRule(collectLikeTermsRule, parse(t[0])))
+            assert.equal(result, t[1])
+        })
     })
 })
