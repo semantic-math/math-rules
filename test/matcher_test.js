@@ -208,7 +208,7 @@ describe('matcher', () => {
 
             assert.equal(
                 applyRuleString(rule, '(a - b) (x^2 + 2x + 1)'),
-                '(a - b) x^2 + (a - b) 2 x + (a - b) 1')
+                '(a - b) x^2 + (a - b) (2 x) + (a - b) 1')
         })
 
         it('should evaluate sums of numbers', () => {
