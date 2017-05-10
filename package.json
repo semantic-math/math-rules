@@ -6,8 +6,8 @@
   "author": "Kevin Barabash <kevinb7@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "math-parser": "^0.4.4",
-    "math-traverse": "^0.2.0"
+    "math-parser": "^0.5.3",
+    "math-traverse": "^0.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
