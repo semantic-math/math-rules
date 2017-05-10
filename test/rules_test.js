@@ -1,9 +1,9 @@
 import assert from 'assert'
-import {parse, print} from 'math-parser'
+import {parse, print, evaluate} from 'math-parser'
 
 import * as nodes from '../lib/nodes'
 import {applyRule, canApplyRule} from '../lib/matcher.js'
-import rules from '../lib/rules.js'
+import * as rules from '../lib/rules.js'
 import collectLikeTermsRule from '../lib/rules/collect-like-terms'
 
 const applyRuleString = (rule, input) => print(applyRule(rule, parse(input)))
@@ -238,6 +238,36 @@ describe('applyRules', () => {
             const ast = parse(t[0])
             const result = print(applyRule(collectLikeTermsRule, parse(t[0])))
             assert.equal(result, t[1])
+        })
+    })
+    describe('handles basic arithmetic', () => {
+        const tests = [
+            ['1 + 2', '3'],
+            ['1 + 2 + 3', '6'],
+            ['3 * 8', '24'],
+            ['-2^2', '-4'],
+            ['(-2)^2', '4'], // TODO: remove parentheses node so this passes
+        ]
+
+        tests.forEach(t => {
+            it(`${t[0]} => ${t[1]}`, () => {
+                assert.equal(applyRuleString(rules.SIMPLIFY_ARITHMETIC, t[0]), t[1])
+            })
+        })
+    })
+    describe('collect constant exponents', () => {
+        const tests = [
+            ['10^2 * ... * 10^3', '10^(2 + ... + 3)'],
+            ['x^a * ... * x^b', 'x^(a + ... + b)'],
+        ]
+
+        tests.forEach(t => {
+            it(`${t[0]} => ${t[1]}`, () => {
+                const input = parse(t[0])
+                const output = parse(t[1])
+
+                assert.equal(applyRuleString(rules.COLLECT_CONSTANT_EXPONENTS, t[0]), t[1])
+            })
         })
     })
 })

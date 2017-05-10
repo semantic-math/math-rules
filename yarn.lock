@@ -1915,15 +1915,15 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
 
-math-parser@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.4.4.tgz#2ef46a32dd45c14523b1aeba8be2063e373b5414"
+math-parser@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.5.3.tgz#8d0519ae3a36c15292580caadd26b1cd81a362b4"
   dependencies:
     math-traverse "^0.2.0"
 
-math-traverse@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.2.0.tgz#56ab6cc86a32ecb24b8fdffb3c7e3527b7adc292"
+math-traverse@^0.2.0, math-traverse@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.2.1.tgz#164c7aeedc22e01087502ec4aa62f68a218544ed"
 
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
