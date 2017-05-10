@@ -256,8 +256,9 @@ describe('applyRules', () => {
     })
     describe('collect constant exponents', () => {
         const tests = [
-            ['10^2 * ... * 10^3', '10^(2 + ... + 3)'],
-            ['x^a * ... * x^b', 'x^(a + ... + b)'],
+            ['10^2 * 10^5 * 10^3', '10^(2 + 5 + 3)'],
+            ['x^a * x^b * x^c', 'x^(a + b + c)'],
+            ['x^a * x^(b+c) * x^(d*e)', 'x^(a + (b + c) + d * e)'],
         ]
 
         tests.forEach(t => {
