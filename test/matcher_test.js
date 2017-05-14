@@ -1,14 +1,7 @@
 import assert from 'assert'
 import {parse, print} from 'math-parser'
+import {build, query} from 'math-nodes'
 
-import {
-    applyNode,
-    numberNode,
-    isNumber,
-    isIdentifier,
-    isAdd,
-    getValue,
-} from '../lib/nodes'
 import {
     matchNode,
     match,
@@ -168,12 +161,12 @@ describe('matcher', () => {
         })
 
         it('should accept applicable rules based on constraints', () => {
-            const rule = defineRuleString('#a + #a', '2 * #a', { a: isNumber })
+            const rule = defineRuleString('#a + #a', '2 * #a', { a: query.isNumber })
             assert(canApplyRuleString(rule, '3 + 3'))
         })
 
         it('should reject unapplicable rules based on constraints', () => {
-            const rule = defineRuleString('#a + #a', '2 #a', { a: isNumber })
+            const rule = defineRuleString('#a + #a', '2 #a', { a: query.isNumber })
             assert.equal(canApplyRuleString(rule, 'x + x'), false)
         })
     })
@@ -186,8 +179,8 @@ describe('matcher', () => {
 
         it('should apply applicable rules based on constraints', () => {
             const rule = defineRuleString('#a #x + #b #x', '(#a + #b) #x', {
-                a: isNumber,
-                b: isNumber,
+                a: query.isNumber,
+                b: query.isNumber,
             })
             assert.equal(applyRuleString(rule, '2 x + 3 x'), '(2 + 3) x')
             assert.equal(canApplyRuleString(rule, '(a + b) x'), false)
@@ -196,11 +189,11 @@ describe('matcher', () => {
         it('should apply rules with a rewrite callback', () => {
             const rule = defineRuleString(
                 '#a #b',
-                (_, {a, b}) => applyNode(
+                (_, {a, b}) => build.applyNode(
                     'add',
                     b.args.map(arg => populatePatternString('#a #arg', {a, arg}))
                 ),
-                {b: isAdd})
+                {b: query.isAdd})
 
             assert.equal(
                 applyRuleString(rule, '3 (x + 1)'),
@@ -216,10 +209,10 @@ describe('matcher', () => {
                 '#a',
                 // TODO: use evaluate from node-parser
                 // TODO: add a special 'eval' node so that we do '#eval(#a)'
-                (_, {a}) => numberNode(
-                    a.args.reduce((total, arg) => total + getValue(arg), 0)),
+                (_, {a}) => build.numberNode(
+                    a.args.reduce((total, arg) => total + query.getValue(arg), 0)),
                 {
-                    a: (a) => isAdd(a) && a.args.every(isNumber)
+                    a: (a) => query.isAdd(a) && a.args.every(query.isNumber)
                 },
             )
 

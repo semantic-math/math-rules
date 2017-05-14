@@ -1,7 +1,6 @@
 import assert from 'assert'
 import {parse, print, evaluate} from 'math-parser'
 
-import * as nodes from '../lib/nodes'
 import {applyRule, canApplyRule} from '../lib/matcher.js'
 import * as rules from '../lib/rules.js'
 import collectLikeTermsRule from '../lib/rules/collect-like-terms'
