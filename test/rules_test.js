@@ -254,7 +254,8 @@ describe('applyRules', () => {
             })
         })
     })
-    describe('collect constant exponents', () => {
+
+    describe('product rule', () => {
         const tests = [
             ['10^2 * 10^5 * 10^3', '10^(2 + 5 + 3)'],
             ['x^a * x^b * x^c', 'x^(a + b + c)'],
@@ -263,10 +264,108 @@ describe('applyRules', () => {
 
         tests.forEach(t => {
             it(`${t[0]} => ${t[1]}`, () => {
-                const input = parse(t[0])
-                const output = parse(t[1])
+                assert.equal(applyRuleString(rules.PRODUCT_RULE, t[0]), t[1])
+            })
+        })
+    })
 
-                assert.equal(applyRuleString(rules.COLLECT_CONSTANT_EXPONENTS, t[0]), t[1])
+    describe('quotient rule', () => {
+        const tests = [
+            ['x^5 / x^3', 'x^(5 - 3)'],
+            ['x^-a / x^-b', 'x^(-a - -b)'],
+        ]
+
+        tests.forEach(t => {
+            it(`${t[0]} => ${t[1]}`, () => {
+                assert.equal(applyRuleString(rules.QUOTIENT_RULE, t[0]), t[1])
+            })
+        })
+    })
+
+    describe('power of a product', () => {
+        const tests = [
+            ['(2*3)^x', '2^x * 3^x'],
+            ['(2*3*5)^x', '2^x * 3^x * 5^x'],
+            ['(a*b*c*d)^x', 'a^x * b^x * c^x * d^x'],
+            ['(p*q)^(x+y)', 'p^(x + y) * q^(x + y)'],
+            ['(p*q)^(x-y)', 'p^(x - y) * q^(x - y)'],
+        ]
+
+        tests.forEach(t => {
+            it(`${t[0]} => ${t[1]}`, () => {
+                assert.equal(applyRuleString(rules.POWER_OF_A_PRODUCT, t[0]), t[1])
+            })
+        })
+    })
+
+    describe('power of a quotient', () => {
+        const tests = [
+            ['(5 / 3)^x', '5^x / 3^x'],
+        ]
+
+        tests.forEach(t => {
+            it(`${t[0]} => ${t[1]}`, () => {
+                assert.equal(applyRuleString(rules.POWER_OF_A_QUOTIENT, t[0]), t[1])
+            })
+        })
+    })
+
+    describe('break up fraction', () => {
+        const tests = [
+            ['(a + b) / 2', 'a / 2 + b / 2'],
+            ['(a + b) / (2n)', 'a / (2 n) + b / (2 n)'],
+            ['(a + b) / (x+y)', 'a / (x + y) + b / (x + y)'],
+            ['(a - b) / 2', 'a / 2 - b / 2'],
+        ]
+
+        tests.forEach(t => {
+            it(`${t[0]} => ${t[1]}`, () => {
+                assert.equal(applyRuleString(rules.BREAK_UP_FRACTION, t[0]), t[1])
+            })
+        })
+    })
+
+    describe('distribute', () => {
+        const tests = [
+            ['2 * (x + 1)', '2 * x + 2 * 1'],
+            ['2 * (x - 1)', '2 * x - 2 * 1'],
+            ['(a + b) * (x + y)', '(a + b) * x + (a + b) * y'],
+            ['(a - b) * (x - y)', '(a - b) * x - (a - b) * y'],
+        ]
+
+        tests.forEach(t => {
+            it(`${t[0]} => ${t[1]}`, () => {
+                assert.equal(applyRuleString(rules.DISTRIBUTE, t[0]), t[1])
+            })
+        })
+    })
+
+    describe('distribute right', () => {
+        const tests = [
+            ['(x + 1) * 2', 'x * 2 + 1 * 2'],
+            ['(x - 1) * 2', 'x * 2 - 1 * 2'],
+            ['(a + b) * (x + y)', 'a * (x + y) + b * (x + y)'],
+            ['(a - b) * (x - y)', 'a * (x - y) - b * (x - y)'],
+        ]
+
+        tests.forEach(t => {
+            it(`${t[0]} => ${t[1]}`, () => {
+                assert.equal(applyRuleString(rules.DISTRIBUTE_RIGHT, t[0]), t[1])
+            })
+        })
+    })
+
+    describe('distribute negative one', () => {
+        // TODO: remove multiplication by negative one
+        const tests = [
+            ['-(x + 1)', '-1 * x + -1 * 1'],
+            ['-(x - 1)', '-1 * x - -1 * 1'],
+            ['-(a + b + c)', '-1 * a + -1 * b + -1 * c'],
+        ]
+
+        tests.forEach(t => {
+            it(`${t[0]} => ${t[1]}`, () => {
+                assert.equal(applyRuleString(rules.DISTRIBUTE_NEGATIVE_ONE, t[0]), t[1])
             })
         })
     })
