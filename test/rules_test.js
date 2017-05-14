@@ -7,6 +7,14 @@ import collectLikeTermsRule from '../lib/rules/collect-like-terms'
 
 const applyRuleString = (rule, input) => print(applyRule(rule, parse(input)))
 
+const suite = (title, rule, tests) => describe(title, () => {
+    tests.forEach(t => {
+        it(`${t[0]} => ${t[1]}`, () => {
+            assert.equal(applyRuleString(rule, t[0]), t[1])
+        })
+    })
+})
+
 // TODO: fix test case under SIMPLIFY_DIVISION
 // add more test cases (if possible)
 
@@ -316,7 +324,7 @@ describe('rules', () => {
             ['2 / 3 / 4', '2 / (3 * 4)'],
             ['x / 2 / 2', 'x / (2 * 2)'],
             ['(x + 1) / 2 / (x + 1)', '(x + 1) / (2 * (x + 1))'],
-            //['x^((x + 1) / 2 / 2)', 'x^(x + 1) / (2 * 2)'],
+            ['x^((x + 1) / 2 / 2)', 'x^((x + 1) / (2 * 2))'],
         ]
 
         tests.forEach(t => {
@@ -336,6 +344,7 @@ describe('rules', () => {
 
         tests.forEach(t => {
             it(`${t[0]} => ${t[1]}`, () => {
+                assert(canApplyRule(rules.MULTIPLY_BY_INVERSE, parse(t[0])))
                 assert.equal(applyRuleString(rules.MULTIPLY_BY_INVERSE, t[0]), t[1])
             })
         })
@@ -401,6 +410,8 @@ describe('rules', () => {
             ['10^2 * 10^5 * 10^3', '10^(2 + 5 + 3)'],
             ['x^a * x^b * x^c', 'x^(a + b + c)'],
             ['x^a * x^(b+c) * x^(d*e)', 'x^(a + (b + c) + d * e)'],
+            // TODO: update match to handle this case
+            // ['5 * 10^2 * 10^5 * 10^3', '5 * 10^(2 + 5 + 3)'],
         ]
 
         tests.forEach(t => {
@@ -454,6 +465,7 @@ describe('rules', () => {
     describe('break up fraction', () => {
         const tests = [
             ['(a + b) / 2', 'a / 2 + b / 2'],
+            ['(a + b + c) / 2', 'a / 2 + b / 2 + c / 2'],
             ['(a + b) / (2n)', 'a / (2 n) + b / (2 n)'],
             ['(a + b) / (x+y)', 'a / (x + y) + b / (x + y)'],
             ['(a - b) / 2', 'a / 2 - b / 2'],
@@ -472,6 +484,8 @@ describe('rules', () => {
             ['2 * (x - 1)', '2 * x - 2 * 1'],
             ['(a + b) * (x + y)', '(a + b) * x + (a + b) * y'],
             ['(a - b) * (x - y)', '(a - b) * x - (a - b) * y'],
+            ['2 * (x + 1) - 3 * (y - 1)', '(2 * x + 2 * 1) - 3 * (y - 1)'],
+            ['1 - 3 * (y - 1)', '1 - (3 * y - 3 * 1)'],
         ]
 
         tests.forEach(t => {
@@ -510,4 +524,34 @@ describe('rules', () => {
             })
         })
     })
+
+
+    // SOLVING FOR A VARIABLE
+    suite('add to both sides', rules.ADD_TO_BOTH_SIDES, [
+        ['x - 3 = 2', 'x - 3 + 3 = 2 + 3'],
+    ])
+
+    suite('subtract from both sides', rules.SUBTRACT_FROM_BOTH_SIDES, [
+        ['x + 3 = 2', 'x + 3 - 3 = 2 - 3'],
+    ])
+
+    suite('multiple both sides', rules.MULTIPLY_BOTH_SIDES, [
+        ['x / 2 = 1', 'x / 2 * 2 = 1 * 2'],
+    ])
+
+    suite('divide from both sides', rules.DIVIDE_FROM_BOTH_SIDES, [
+        ['2 x = 1', '(2 x) / 2 = 1 / 2'],
+    ])
+
+    suite('multiple both sides by inverse fraction', rules.MULTIPLY_BOTH_SIDES_BY_INVERSE_FRACTION, [
+        ['2 / 3 * x = 1', '2 / 3 * x * 3 / 2 = 1 * 3 / 2'],
+    ])
+
+    suite('multiple both sides by negative one', rules.MULTIPLY_BOTH_SIDES_BY_NEGATIVE_ONE, [
+        ['-x = 2', '-1 * -x = -1 * 2'],
+    ])
+
+    suite('swap sides', rules.SWAP_SIDES, [
+        ['2 = x', 'x = 2'],
+    ])
 })
