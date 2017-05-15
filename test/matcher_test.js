@@ -5,33 +5,29 @@ import {build, query} from 'math-nodes'
 import {
     matchNode,
     match,
-    rewrite,
     defineRule,
+    definePatternRule,
     canApplyRule,
     applyRule,
     populatePattern,
+    patternToMatchFn,
 } from '../lib/matcher'
 
 // returns the rewritten string
 const rewriteString = (matchPattern, rewritePattern, input) => {
     const rule = defineRuleString(matchPattern, rewritePattern)
-    const ast = rewrite(rule, parse(input))
+    const ast = applyRule(rule, parse(input))
     return print(ast)
 }
 
 // returns the matched node in the AST of the parsed input
 const matchString = (pattern, input) => {
-    return match(parse(pattern), parse(input))
+    const matchFn = patternToMatchFn(parse(pattern))
+    return match(matchFn, parse(input))
 }
 
-const defineRuleString = (matchPattern, rewritePattern, constraints) => {
-    return defineRule(
-        parse(matchPattern),
-        isFunction(rewritePattern)
-            ? rewritePattern
-            : parse(rewritePattern),
-        constraints)
-}
+const defineRuleString = (matchPattern, rewritePattern, constraints) =>
+    definePatternRule(parse(matchPattern), parse(rewritePattern), constraints)
 
 const canApplyRuleString = (rule, input) => canApplyRule(rule, parse(input))
 
@@ -187,8 +183,8 @@ describe('matcher', () => {
         })
 
         it('should apply rules with a rewrite callback', () => {
-            const rule = defineRuleString(
-                '#a #b',
+            const rule = defineRule(
+                patternToMatchFn(parse('#a #b'), {b: query.isAdd}),
                 (_, {a, b}) => build.applyNode(
                     'add',
                     b.args.map(arg => populatePatternString('#a #arg', {a, arg}))
@@ -205,8 +201,10 @@ describe('matcher', () => {
         })
 
         it('should evaluate sums of numbers', () => {
-            const rule = defineRuleString(
-                '#a',
+            const rule = defineRule(
+                patternToMatchFn(parse('#a'), {
+                    a: (a) => query.isAdd(a) && a.args.every(query.isNumber)
+                }),
                 // TODO: use evaluate from node-parser
                 // TODO: add a special 'eval' node so that we do '#eval(#a)'
                 (_, {a}) => build.numberNode(

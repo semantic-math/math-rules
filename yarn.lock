@@ -1919,10 +1919,15 @@ math-nodes@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.0.3.tgz#9b50ac489e67f19fd56158bedbaf38ceb3b63f70"
 
-math-parser@^0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.5.3.tgz#8d0519ae3a36c15292580caadd26b1cd81a362b4"
+math-nodes@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.0.4.tgz#df01221bb8e56e9c5bb7c49316f219bedbd038da"
+
+math-parser@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.6.1.tgz#1c1355c32b04a5a0e4c74f50f43f394ac4f0331f"
   dependencies:
+    math-nodes "^0.0.4"
     math-traverse "^0.2.0"
 
 math-traverse@^0.2.0, math-traverse@^0.2.1:
