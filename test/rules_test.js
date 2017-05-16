@@ -49,13 +49,15 @@ describe('rules', () => {
     suite('multiply by zero', rules.MULTIPLY_BY_ZERO, [
         ['2 * 0', '0'],
         ['x * 0', '0'],
+        ['x 0', '0'],
         ['(x + 1) * 0', '0'],
         ['x^((x + 1) * 0)', 'x^0'],
     ])
 
     suite('multiply by zero reverse', rules.MULTIPLY_BY_ZERO_REVERSE, [
         ['0 * 2', '0'],
-        ['0 * X', '0'],
+        ['0 * x', '0'],
+        ['0 x', '0'],
         ['0 * (x + 1)', '0'],
         ['x^(0 * (x + 1))', 'x^0'],
     ])
@@ -114,6 +116,7 @@ describe('rules', () => {
     suite('remove multiplying by one', rules.REMOVE_MULTIPLYING_BY_ONE, [
         ['2 * 1', '2'],
         ['x * 1', 'x'],
+        ['x 1', 'x'],
         ['(x + 1) * 1', 'x + 1'],
         ['x^((x + 1) * 1)', 'x^(x + 1)'],
         ['2 * 1 * z^2', '2 * z^2'],
@@ -122,6 +125,7 @@ describe('rules', () => {
     suite('remove multiplying by one reverse', rules.REMOVE_MULTIPLYING_BY_ONE_REVERSE, [
         ['1 * 2', '2'],
         ['1 * x', 'x'],
+        ['1 x', 'x'],
         ['1 * (x + 1)', 'x + 1'],
         ['x^(1 * (x + 1))', 'x^(x + 1)'],
     ])
