@@ -15,6 +15,14 @@ const suite = (title, rule, tests) => describe(title, () => {
     })
 })
 
+suite.only = (title, rule, tests) => describe.only(title, () => {
+    tests.forEach(t => {
+        it(`${t[0]} => ${t[1]}`, () => {
+            assert.equal(print(applyRule(rule, parse(t[0]))), t[1])
+        })
+    })
+})
+
 
 describe('rules', () => {
     suite('negation', rules.NEGATION, [
@@ -68,6 +76,7 @@ describe('rules', () => {
 
     suite('remove adding zero', rules.REMOVE_ADDING_ZERO, [
         ['2 + 0', '2'],
+        ['2 + 0 + x', '2 + x'],
         ['x + 0', 'x'],
         ['(x + 1) + 0', 'x + 1'],
         ['x^(x + 0)', 'x^x'],
@@ -99,6 +108,7 @@ describe('rules', () => {
         ['x * -1', '-x'],
         ['(x + 1) * -1', '-(x + 1)'],
         ['x^((x + 1) * -1)', 'x^-(x + 1)'],
+        ['2x * 2 * -1', '2 x * -2'],
     ])
 
     suite('remove multiplying by one', rules.REMOVE_MULTIPLYING_BY_ONE, [
@@ -106,6 +116,7 @@ describe('rules', () => {
         ['x * 1', 'x'],
         ['(x + 1) * 1', 'x + 1'],
         ['x^((x + 1) * 1)', 'x^(x + 1)'],
+        ['2 * 1 * z^2', '2 * z^2'],
     ])
 
     suite('remove multiplying by one reverse', rules.REMOVE_MULTIPLYING_BY_ONE_REVERSE, [
@@ -247,7 +258,6 @@ describe('rules', () => {
         ['(a - b) * (x - y)', 'a * (x - y) - b * (x - y)'],
     ])
 
-    // TODO: remove multiplication by negative one
     suite('distribute negative one', rules.DISTRIBUTE_NEGATIVE_ONE, [
         ['-(x + 1)', '-1 * x + -1 * 1'],
         ['-(x - 1)', '-1 * x - -1 * 1'],
