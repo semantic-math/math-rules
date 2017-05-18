@@ -15,6 +15,14 @@ const suite = (title, rule, tests) => describe(title, () => {
     })
 })
 
+suite.only = (title, rule, tests) => describe.only(title, () => {
+    tests.forEach(t => {
+        it(`${t[0]} => ${t[1]}`, () => {
+            assert.equal(print(applyRule(rule, parse(t[0]))), t[1])
+        })
+    })
+})
+
 
 describe('rules', () => {
     suite('negation', rules.NEGATION, [
@@ -41,13 +49,15 @@ describe('rules', () => {
     suite('multiply by zero', rules.MULTIPLY_BY_ZERO, [
         ['2 * 0', '0'],
         ['x * 0', '0'],
+        ['x 0', '0'],
         ['(x + 1) * 0', '0'],
         ['x^((x + 1) * 0)', 'x^0'],
     ])
 
     suite('multiply by zero reverse', rules.MULTIPLY_BY_ZERO_REVERSE, [
         ['0 * 2', '0'],
-        ['0 * X', '0'],
+        ['0 * x', '0'],
+        ['0 x', '0'],
         ['0 * (x + 1)', '0'],
         ['x^(0 * (x + 1))', 'x^0'],
     ])
@@ -68,6 +78,7 @@ describe('rules', () => {
 
     suite('remove adding zero', rules.REMOVE_ADDING_ZERO, [
         ['2 + 0', '2'],
+        ['2 + 0 + x', '2 + x'],
         ['x + 0', 'x'],
         ['(x + 1) + 0', 'x + 1'],
         ['x^(x + 0)', 'x^x'],
@@ -99,18 +110,22 @@ describe('rules', () => {
         ['x * -1', '-x'],
         ['(x + 1) * -1', '-(x + 1)'],
         ['x^((x + 1) * -1)', 'x^-(x + 1)'],
+        ['2x * 2 * -1', '2 x * -2'],
     ])
 
     suite('remove multiplying by one', rules.REMOVE_MULTIPLYING_BY_ONE, [
         ['2 * 1', '2'],
         ['x * 1', 'x'],
+        ['x 1', 'x'],
         ['(x + 1) * 1', 'x + 1'],
         ['x^((x + 1) * 1)', 'x^(x + 1)'],
+        ['2 * 1 * z^2', '2 * z^2'],
     ])
 
     suite('remove multiplying by one reverse', rules.REMOVE_MULTIPLYING_BY_ONE_REVERSE, [
         ['1 * 2', '2'],
         ['1 * x', 'x'],
+        ['1 x', 'x'],
         ['1 * (x + 1)', 'x + 1'],
         ['x^(1 * (x + 1))', 'x^(x + 1)'],
     ])
@@ -202,8 +217,11 @@ describe('rules', () => {
         ['10^2 * 10^5 * 10^3', '10^(2 + 5 + 3)'],
         ['x^a * x^b * x^c', 'x^(a + b + c)'],
         ['x^a * x^(b+c) * x^(d*e)', 'x^(a + (b + c) + d * e)'],
-        // TODO: update match to handle this case
-        // ['5 * 10^2 * 10^5 * 10^3', '5 * 10^(2 + 5 + 3)'],
+        ['5 * 10^2 * 10^5 * 10^3', '5 * 10^(2 + 5 + 3)'],
+        ['10^2 * 10^5 * 10^3 * 5', '10^(2 + 5 + 3) * 5'],
+        ['5 * 10^2 * 10^5 * 10^3 * 5', '5 * 10^(2 + 5 + 3) * 5'],
+        // TODO: handle this case
+        // ['10^2 * 10^3 * x^a * x^b', '10^(2 + 3) * x^(a + b)'],
     ])
 
     suite('quotient rule', rules.QUOTIENT_RULE, [
@@ -247,7 +265,6 @@ describe('rules', () => {
         ['(a - b) * (x - y)', 'a * (x - y) - b * (x - y)'],
     ])
 
-    // TODO: remove multiplication by negative one
     suite('distribute negative one', rules.DISTRIBUTE_NEGATIVE_ONE, [
         ['-(x + 1)', '-1 * x + -1 * 1'],
         ['-(x - 1)', '-1 * x - -1 * 1'],
