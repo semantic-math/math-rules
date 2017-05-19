@@ -3,9 +3,9 @@ import {parse, print, evaluate} from 'math-parser'
 
 import {applyRule, canApplyRule} from '../lib/matcher.js'
 import * as rules from '../lib/rules.js'
-import collectLikeTermsRule from '../lib/rules/collect-like-terms'
 
 const applyRuleString = (rule, input) => print(applyRule(rule, parse(input)))
+const canApplyRuleString = (rule, input) => canApplyRule(rule, parse(input))
 
 const suite = (title, rule, tests) => describe(title, () => {
     tests.forEach(t => {
@@ -193,7 +193,7 @@ describe('rules', () => {
         ['x^(|-(x + 1)|)', 'x^(x + 1)'],
     ])
 
-    suite('collects like terms', collectLikeTermsRule, [
+    suite('collects like terms', rules.COLLECT_LIKE_TERMS, [
         ['2x + 1 - 2x', '(2 x - 2 x) + 1'],
         ['2x + 1 - x', '(2 x - x) + 1'],
         ['x^2 + 1 + x^2', '(x^2 + x^2) + 1'],
@@ -300,4 +300,36 @@ describe('rules', () => {
     suite('swap sides', rules.SWAP_SIDES, [
         ['2 = x', 'x = 2'],
     ])
+})
+
+describe('canApplyRule', () => {
+    describe('COLLECT_LIKE_TERMS', () => {
+        it('2x + 1 - 2x should pass', () => {
+            assert(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2x + 1 - 2x'))
+        })
+
+        // TODO: fix this case
+        // it('2xy - yx should pass', () => {
+        //     assert(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2xy - yx'))
+        // })
+
+        it('2x + 1 - 3y should fail', () => {
+            assert.equal(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2x + 1 - 3y'), false)
+        })
+    })
+
+    describe('SIMPLIFY_ARITHMETIC', () => {
+        it('1 + 2 + 3 should pass', () => {
+            assert(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + 3'))
+        })
+
+        // TODO: fix this case
+        // it('1 + 2 + x should pass', () => {
+        //     assert(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'))
+        // })
+
+        it('a + b + c should fail', () => {
+            assert.equal(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'), false)
+        })
+    })
 })
