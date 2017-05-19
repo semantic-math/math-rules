@@ -210,7 +210,12 @@ describe('rules', () => {
         ['1 + 2 + 3', '6'],
         ['3 * 8', '24'],
         ['-2^2', '-4'],
-        ['(-2)^2', '4'], // TODO: remove parentheses node so this passes
+        ['(-2)^2', '4'],
+        ['1 + 2 + y', '3 + y'],
+        ['x + 1 + 2', 'x + 3'],
+        ['x + 1 + 2 + y', 'x + 3 + y'],
+        // TODO: enable after adding option to apply rule multiple times
+        // ['x + 1 + 2 + y + 3 + 4 + z', 'x + 3 + y + 7 + z'],
     ])
 
     suite('product rule', rules.PRODUCT_RULE, [
@@ -319,17 +324,8 @@ describe('canApplyRule', () => {
     })
 
     describe('SIMPLIFY_ARITHMETIC', () => {
-        it('1 + 2 + 3 should pass', () => {
-            assert(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + 3'))
-        })
-
-        // TODO: fix this case
-        it.skip('1 + 2 + x should pass', () => {
-            assert(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'))
-        })
-
         it('a + b + c should fail', () => {
-            assert.equal(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'), false)
+            assert.equal(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, 'a + b + c'), false)
         })
     })
 })
