@@ -309,9 +309,9 @@ describe('canApplyRule', () => {
         })
 
         // TODO: fix this case
-        // it('2xy - yx should pass', () => {
-        //     assert(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2xy - yx'))
-        // })
+        it.skip('2xy - yx should pass', () => {
+            assert(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2xy - yx'))
+        })
 
         it('2x + 1 - 3y should fail', () => {
             assert.equal(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2x + 1 - 3y'), false)
@@ -324,9 +324,9 @@ describe('canApplyRule', () => {
         })
 
         // TODO: fix this case
-        // it('1 + 2 + x should pass', () => {
-        //     assert(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'))
-        // })
+        it.skip('1 + 2 + x should pass', () => {
+            assert(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'))
+        })
 
         it('a + b + c should fail', () => {
             assert.equal(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'), false)
