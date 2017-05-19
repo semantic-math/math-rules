@@ -214,6 +214,9 @@ describe('rules', () => {
         ['1 + 2 + y', '3 + y'],
         ['x + 1 + 2', 'x + 3'],
         ['x + 1 + 2 + y', 'x + 3 + y'],
+        ['2 * 4 * y', '8 * y'],
+        ['x * 2 * 4', 'x * 8'],
+        ['x * 2 * 4 * y', 'x * 8 * y'],
         // TODO: enable after adding option to apply rule multiple times
         // ['x + 1 + 2 + y + 3 + 4 + z', 'x + 3 + y + 7 + z'],
     ])
