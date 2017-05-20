@@ -206,8 +206,6 @@ describe('rules', () => {
         ['2x + 7y + 5 + 3y + 9x + 11', '(2 x + 9 x) + (7 y + 3 y) + (5 + 11)'],
     ])
 
-    // ADDING POLYNOMIALS
-
     suite('add polynomials', rules.ADD_POLYNOMIAL_TERMS, [
         ['2x + 2x + 2 + 4', '4 x + (2 + 4)'],
         ['3y^2 - 2y^2 + y^4', '1 y^2 + 1 y^4'],
