@@ -3,9 +3,9 @@ import {parse, print, evaluate} from 'math-parser'
 
 import {applyRule, canApplyRule} from '../lib/matcher.js'
 import * as rules from '../lib/rules.js'
-import collectLikeTermsRule from '../lib/rules/collect-like-terms'
 
 const applyRuleString = (rule, input) => print(applyRule(rule, parse(input)))
+const canApplyRuleString = (rule, input) => canApplyRule(rule, parse(input))
 
 const suite = (title, rule, tests) => describe(title, () => {
     tests.forEach(t => {
@@ -193,7 +193,7 @@ describe('rules', () => {
         ['x^(|-(x + 1)|)', 'x^(x + 1)'],
     ])
 
-    suite('collects like terms', collectLikeTermsRule, [
+    suite('collects like terms', rules.COLLECT_LIKE_TERMS, [
         ['2x + 1 - 2x', '(2 x - 2 x) + 1'],
         ['2x + 1 - x', '(2 x - x) + 1'],
         ['x^2 + 1 + x^2', '(x^2 + x^2) + 1'],
@@ -203,6 +203,14 @@ describe('rules', () => {
         // ['x y + 1 + y x', '(x y + x y) + 1'],  // TODO: this case should pass
         ['x^2 + 2x^2 - 3x^3 - 4x^3', '(x^2 + 2 x^2) + (-3 x^3 - 4 x^3)'],
         ['2x + 7y + 5 + 3y + 9x + 11', '(2 x + 9 x) + (7 y + 3 y) + (5 + 11)'],
+    ])
+
+    suite('add polynomials', rules.ADD_POLYNOMIAL_TERMS, [
+        ['2x + 2x + 2 + 4', '4 x + (2 + 4)'],
+        ['2x + 2y', '2 x + 2 y'],
+        ['2x + 3x + 2y + 3y', '5 x + 5 y'],
+        ['-2y + 2x - 3x^2', '-2y + 2x - 3x^2'],
+        ['-2y + 3y', '1 y'],
     ])
 
     suite('handles basic arithmetic', rules.SIMPLIFY_ARITHMETIC, [
@@ -300,4 +308,36 @@ describe('rules', () => {
     suite('swap sides', rules.SWAP_SIDES, [
         ['2 = x', 'x = 2'],
     ])
+})
+
+describe('canApplyRule', () => {
+    describe('COLLECT_LIKE_TERMS', () => {
+        it('2x + 1 - 2x should pass', () => {
+            assert(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2x + 1 - 2x'))
+        })
+
+        // TODO: fix this case
+        it.skip('2xy - yx should pass', () => {
+            assert(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2xy - yx'))
+        })
+
+        it('2x + 1 - 3y should fail', () => {
+            assert.equal(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2x + 1 - 3y'), false)
+        })
+    })
+
+    describe('SIMPLIFY_ARITHMETIC', () => {
+        it('1 + 2 + 3 should pass', () => {
+            assert(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + 3'))
+        })
+
+        // TODO: fix this case
+        it.skip('1 + 2 + x should pass', () => {
+            assert(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'))
+        })
+
+        it('a + b + c should fail', () => {
+            assert.equal(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'), false)
+        })
+    })
 })
