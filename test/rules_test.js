@@ -165,6 +165,18 @@ describe('rules', () => {
         ['x^((x + 1) / -1)', 'x^(-(x + 1) / 1)'],
     ])
 
+    suite('add numerators', rules.COMBINE_NUMERATORS, [
+        ['1/3 + 2/3', '(1 + 2) / 3'],
+        ['1/x + 2/x + 3/x', '(1 + 2 + 3) / x'],
+        ['2/3 - 1/3', '(2 - 1) / 3'],
+        ['(1/3 + 2/3) / x', '(1 + 2) / 3 / x'],
+    ])
+
+    suite('common denominator', rules.COMMON_DENOMINATOR, [
+        ['2/6 + 1/4', '(2 * 2) / (6 * 2) + (1 * 3) / (4 * 3)'],
+        
+    ])
+
     suite('multiply fractions', rules.MULTIPLY_FRACTIONS, [
         ['2 / 3 * 2 / 3', '(2 * 2) / (3 * 3)'],
         ['x / 2 * x / 2', '(x * x) / (2 * 2)'],
@@ -264,7 +276,7 @@ describe('rules', () => {
     suite('product rule', rules.PRODUCT_RULE, [
         ['10^2 * 10^5 * 10^3', '10^(2 + 5 + 3)'],
         ['x^a * x^b * x^c', 'x^(a + b + c)'],
-        ['x^a * x^(b+c) * x^(d*e)', 'x^(a + (b + c) + d * e)'],
+        ['x^a * x^(b+c) * x^(d-e)', 'x^(a + (b + c) + (d - e))'],
         ['5 * 10^2 * 10^5 * 10^3', '5 * 10^(2 + 5 + 3)'],
         ['10^2 * 10^5 * 10^3 * 5', '10^(2 + 5 + 3) * 5'],
         ['5 * 10^2 * 10^5 * 10^3 * 5', '5 * 10^(2 + 5 + 3) * 5'],
