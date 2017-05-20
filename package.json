@@ -1,6 +1,6 @@
 {
   "name": "math-rules",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "main": "dist/math-rules.js",
   "repository": "https://github.com/semantic-math/math-rules",
   "author": "Kevin Barabash <kevinb7@gmail.com>",

@@ -222,6 +222,34 @@ describe('rules', () => {
         // ['x + 1 + 2 + y + 3 + 4 + z', 'x + 3 + y + 7 + z'],
     ])
 
+    suite('evaluate addition', rules.EVALUATE_ADDITION, [
+        ['1 + 2', '3'],
+        ['1 + 2 + 3 + 4', '10'],
+        ['x + 1 + 2 + y', 'x + 3 + y'],
+    ])
+
+    suite('evaluate multiplication', rules.EVALUATE_MULTIPLICATION, [
+        ['2 * 4', '8'],
+        ['2 * 4 * 6', '48'],
+        ['x * 2 * 4 * y', 'x * 8 * y'],
+    ])
+
+    suite('evaluate division', rules.EVALUATE_DIVISION, [
+        ['10 / 5', '2'],
+        ['x^(10 / 5)', 'x^2'],
+        ['10 / 5 / x', '2 / x'],
+        ['x / (10 / 5)', 'x / 2'],
+    ])
+
+    suite('evaluate power', rules.EVALUATE_POWER, [
+        ['(-2)^2', '4'],
+        ['-2^2', '-4'],
+        ['(-2)^3', '-8'],
+        ['2^3', '8'],
+        ['x^2^3', 'x^8'],
+        ['(2^3)^x', '8^x'],
+    ])
+
     suite('product rule', rules.PRODUCT_RULE, [
         ['10^2 * 10^5 * 10^3', '10^(2 + 5 + 3)'],
         ['x^a * x^b * x^c', 'x^(a + b + c)'],
