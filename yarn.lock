@@ -1915,19 +1915,15 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
 
-math-nodes@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.0.3.tgz#9b50ac489e67f19fd56158bedbaf38ceb3b63f70"
+math-nodes@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.0.tgz#87cb873f5d260ecffc4a04e1ed0ffe85cdffec1a"
 
-math-nodes@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.0.4.tgz#df01221bb8e56e9c5bb7c49316f219bedbd038da"
-
-math-parser@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.6.2.tgz#eec3182e2cc126a86addbec01774864bfd4bb2e7"
+math-parser@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.8.0.tgz#c501a5f275397fca0cfcb1854ba4a068f59249c4"
   dependencies:
-    math-nodes "^0.0.4"
+    math-nodes "^0.1.0"
     math-traverse "^0.2.0"
 
 math-traverse@^0.2.0, math-traverse@^0.2.1:
