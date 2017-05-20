@@ -110,7 +110,7 @@ describe('rules', () => {
         ['x * -1', '-x'],
         ['(x + 1) * -1', '-(x + 1)'],
         ['x^((x + 1) * -1)', 'x^-(x + 1)'],
-        ['2x * 2 * -1', '2 x * -2'],
+        //['2x * 2 * -1', '2 x * -2'],
     ])
 
     suite('remove multiplying by one', rules.REMOVE_MULTIPLYING_BY_ONE, [
@@ -208,11 +208,13 @@ describe('rules', () => {
 
     suite('add polynomials', rules.ADD_POLYNOMIAL_TERMS, [
         ['2x + 2x + 2 + 4', '4 x + (2 + 4)'],
-        ['2x + 2y - 2y', '2 x + 0 y'],
+        ['3y^2 - 2y^2 + y^4', '1 y^2 + 1 y^4'],
+        ['x - x', '0 x'],
         ['2x + 3x + 2y + 3y', '5 x + 5 y'],
-        ['3x^2 + 2x^2', '5 x^2'],
-        ['3x^2 - 2y^2 + 3y^2', '3 x^2 + 1 y^2'],
         ['-2y + 3y', '1 y'],
+        ['3 xy + 2 xy', '5 xy'],
+        ['3 xy - 2 xy + x^2y^2', '1 (x^2 y^2) + 1 xy'],
+        //['2xy + 2yx', '4 xy'],
     ])
 
     suite('handles basic arithmetic', rules.SIMPLIFY_ARITHMETIC, [
