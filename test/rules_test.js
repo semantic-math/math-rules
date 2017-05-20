@@ -200,16 +200,18 @@ describe('rules', () => {
         ['x^y + 1 + x^y', '(x^y + x^y) + 1'],
         ['x y + 1 + x y', '(x y + x y) + 1'],
         ['3 x y + 1 - 2 x y', '(3 x y - 2 x y) + 1'],
-        // ['x y + 1 + y x', '(x y + x y) + 1'],  // TODO: this case should pass
+        ['x y + 1 + y x', '(x y + x y) + 1'],
+        ['x y + 1 + 3 y x', '(x y + 3 x y) + 1'],
         ['x^2 + 2x^2 - 3x^3 - 4x^3', '(x^2 + 2 x^2) + (-3 x^3 - 4 x^3)'],
         ['2x + 7y + 5 + 3y + 9x + 11', '(2 x + 9 x) + (7 y + 3 y) + (5 + 11)'],
     ])
 
     suite('add polynomials', rules.ADD_POLYNOMIAL_TERMS, [
         ['2x + 2x + 2 + 4', '4 x + (2 + 4)'],
-        ['2x + 2y', '2 x + 2 y'],
+        ['2x + 2y - 2y', '2 x + 0 y'],
         ['2x + 3x + 2y + 3y', '5 x + 5 y'],
-        ['-2y + 2x - 3x^2', '-2y + 2x - 3x^2'],
+        ['3x^2 + 2x^2', '5 x^2'],
+        ['3x^2 - 2y^2 + 3y^2', '3 x^2 + 1 y^2'],
         ['-2y + 3y', '1 y'],
     ])
 
@@ -218,7 +220,15 @@ describe('rules', () => {
         ['1 + 2 + 3', '6'],
         ['3 * 8', '24'],
         ['-2^2', '-4'],
-        ['(-2)^2', '4'], // TODO: remove parentheses node so this passes
+        ['(-2)^2', '4'],
+        ['1 + 2 + y', '3 + y'],
+        ['x + 1 + 2', 'x + 3'],
+        ['x + 1 + 2 + y', 'x + 3 + y'],
+        ['2 * 4 * y', '8 * y'],
+        ['x * 2 * 4', 'x * 8'],
+        ['x * 2 * 4 * y', 'x * 8 * y'],
+        // TODO: enable after adding option to apply rule multiple times
+        // ['x + 1 + 2 + y + 3 + 4 + z', 'x + 3 + y + 7 + z'],
     ])
 
     suite('product rule', rules.PRODUCT_RULE, [
@@ -316,9 +326,8 @@ describe('canApplyRule', () => {
             assert(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2x + 1 - 2x'))
         })
 
-        // TODO: fix this case
-        it.skip('2xy - yx should pass', () => {
-            assert(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2xy - yx'))
+        it('2 x y + 1 - y x should pass', () => {
+            assert(canApplyRuleString(rules.COLLECT_LIKE_TERMS, '2 x y + 1 - y x'))
         })
 
         it('2x + 1 - 3y should fail', () => {
@@ -327,17 +336,8 @@ describe('canApplyRule', () => {
     })
 
     describe('SIMPLIFY_ARITHMETIC', () => {
-        it('1 + 2 + 3 should pass', () => {
-            assert(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + 3'))
-        })
-
-        // TODO: fix this case
-        it.skip('1 + 2 + x should pass', () => {
-            assert(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'))
-        })
-
         it('a + b + c should fail', () => {
-            assert.equal(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, '1 + 2 + x'), false)
+            assert.equal(canApplyRuleString(rules.SIMPLIFY_ARITHMETIC, 'a + b + c'), false)
         })
     })
 })
