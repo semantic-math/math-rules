@@ -1,11 +1,11 @@
 import assert from 'assert'
 import {parse, print} from 'math-parser'
 
-import flattendOperands from '../lib/flatten-operands'
+import {flattenOperands} from '../lib/utils'
 
 const test = (input, output) =>
     it(input, () => {
-        assert.equal(print(flattendOperands(parse(input))), output)
+        assert.equal(print(flattenOperands(parse(input))), output)
     })
 
 describe('flattenOperands', () => {
