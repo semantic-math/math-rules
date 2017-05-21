@@ -361,6 +361,11 @@ describe('rules', () => {
         ['-(a + b + c)', '-1 * a + -1 * b + -1 * c'],
     ])
 
+    suite('cancel exponent', rules.NTH_ROOT_VALUE, [
+        ['nthRoot(4)', '2'],
+        ['nthRoot(16)', '4'],
+        ['nthRoot(64)', '8']
+    ])
 
     // SOLVING FOR A VARIABLE
     suite('add to both sides', rules.ADD_TO_BOTH_SIDES, [
