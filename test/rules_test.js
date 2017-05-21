@@ -222,7 +222,7 @@ describe('rules', () => {
     suite('fractional polynomials', rules.FRACTIONAL_POLYNOMIALS, [
         ['2x/3', '2 / 3 x'],
         ['3y^2/3', '3 / 3 y^2'],
-        ['3x + 2x/3','3x + 2 / 3 x']
+        ['3x + 2x/3','3 x + 2 / 3 x']
     ])
 
     suite('add polynomials', rules.ADD_POLYNOMIAL_TERMS, [
