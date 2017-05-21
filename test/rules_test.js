@@ -18,7 +18,7 @@ const suite = (title, rule, tests) => describe(title, () => {
 suite.only = (title, rule, tests) => describe.only(title, () => {
     tests.forEach(t => {
         it(`${t[0]} => ${t[1]}`, () => {
-            assert.equal(print(applyRule(rule, parse(t[0]))), t[1])
+            assert.equal(t[1], print(applyRule(rule, parse(t[0]))))
         })
     })
 })
@@ -178,6 +178,16 @@ describe('rules', () => {
         ['(1/3 + 2/3) / x', '(1 + 2) / 3 / x'],
     ])
 
+    suite('common denominators', rules.COMMON_DENOMINATOR, [
+        ['2/6 + 1/4', '(2 * 2) / (6 * 2) + (1 * 3) / (4 * 3)'],
+        ['2/6 - 1/4', '(2 * 2) / (6 * 2) - (1 * 3) / (4 * 3)'],
+        ['2/6 + 1/4 - 2/5', '(2 * 10) / (6 * 10) + (1 * 15) / (4 * 15) - (2 * 12) / (5 * 12)'],
+        ['2/6 + 1/4 - 3/4', '(2 * 2) / (6 * 2) + (1 * 3) / (4 * 3) - (3 * 3) / (4 * 3)'],
+        // TODO: return the original expression if the denominators are already
+        // the same?
+        ['2/4 - 1/4', '(2 * 1) / (4 * 1) - (1 * 1) / (4 * 1)'],
+    ])
+
     suite('multiply fractions', rules.MULTIPLY_FRACTIONS, [
         ['2 / 3 * 2 / 3', '(2 * 2) / (3 * 3)'],
         ['x / 2 * x / 2', '(x * x) / (2 * 2)'],
@@ -301,8 +311,12 @@ describe('rules', () => {
         ['x^-a / x^-b', 'x^(-a - -b)'],
     ])
 
+
     suite('multiplying polynomials', rules.MULTIPLY_POLYNOMIALS, [
-        ['x^2 * x^1', 'x^3'],
+        ['x^2 * x^1', '1 x^3'],
+        ['3x^2 * x^2', '3 x^4'],
+        ['x^3 * 2y^2', '2 (x^3 y^2)'],
+        ['x^3 + 2x + 3x^1 * 5x^1', 'x^3 + 2 x + 15 x^2'],
     ])
 
     suite('power of a product', rules.POWER_OF_A_PRODUCT, [
