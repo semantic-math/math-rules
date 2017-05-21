@@ -1915,9 +1915,9 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
 
-math-evaluator@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/math-evaluator/-/math-evaluator-0.0.1.tgz#b6261272ec3a2f789f15251080140c9b4cac6ccf"
+math-evaluator@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/math-evaluator/-/math-evaluator-0.0.4.tgz#0549f67e4cd819a9cda027fbac03743a5136403b"
   dependencies:
     babel-loader "^7.0.0"
 
