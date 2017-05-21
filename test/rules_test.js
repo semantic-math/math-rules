@@ -206,6 +206,11 @@ describe('rules', () => {
         ['x^(|-(x + 1)|)', 'x^(x + 1)'],
     ])
 
+    suite('adding exponent of one', rules.ADD_EXPONENT_OF_ONE, [
+        //['x^2 * x', 'x^2 * x^1'],
+        //['x^2 * 2 * x * x', ''],
+        //['x + 2 * x', '']
+    ])
     suite('collects like terms', rules.COLLECT_LIKE_TERMS, [
         ['2x + 1 - 2x', '(2 x - 2 x) + 1'],
         ['2x + 1 - x', '(2 x - x) + 1'],
@@ -294,6 +299,10 @@ describe('rules', () => {
     suite('quotient rule', rules.QUOTIENT_RULE, [
         ['x^5 / x^3', 'x^(5 - 3)'],
         ['x^-a / x^-b', 'x^(-a - -b)'],
+    ])
+
+    suite('multiplying polynomials', rules.MULTIPLY_POLYNOMIALS, [
+        ['x^2 * x^1', 'x^3'],
     ])
 
     suite('power of a product', rules.POWER_OF_A_PRODUCT, [
