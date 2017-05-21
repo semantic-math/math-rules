@@ -211,9 +211,9 @@ describe('rules', () => {
     ])
 
     suite('adding exponent of one', rules.ADD_EXPONENT_OF_ONE, [
-        //['x^2 * x', 'x^2 * x^1'],
-        //['x^2 * 2 * x * x', ''],
-        //['x + 2 * x', '']
+        ['x^2 * x', 'x^2 * x^1'],
+        ['x^2 * 2 * x * x', ''],
+        ['x + 2 * x', '']
     ])
     suite('collects like terms', rules.COLLECT_LIKE_TERMS, [
         ['2x + 1 - 2x', '(2 x - 2 x) + 1'],
