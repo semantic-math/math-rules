@@ -1915,6 +1915,12 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
 
+math-evaluator@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/math-evaluator/-/math-evaluator-0.0.1.tgz#b6261272ec3a2f789f15251080140c9b4cac6ccf"
+  dependencies:
+    babel-loader "^7.0.0"
+
 math-nodes@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.0.tgz#87cb873f5d260ecffc4a04e1ed0ffe85cdffec1a"
