@@ -1950,13 +1950,6 @@ math-parser@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.9.0.tgz#a46b09afd618281c6c1be7530de0a663171d10d6"
   dependencies:
-    math-nodes "^0.1.0"
-    math-traverse "^0.2.1"
-
-math-rules@^0.2.10:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/math-rules/-/math-rules-0.2.10.tgz#78855606ab749aaf0cb97e1f03316ef74e134fd6"
-  dependencies:
     math-evaluator "^0.0.4"
     math-nodes "^0.1.0"
     math-parser "^0.9.0"
