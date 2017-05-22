@@ -210,11 +210,17 @@ describe('rules', () => {
         ['x^(|-(x + 1)|)', 'x^(x + 1)'],
     ])
 
+    suite('adding exponent of one helper', rules.ADD_EXPONENT_OF_ONE_HELPER, [
+        ['6x y z', '6 x^1 y^1 z^1'],
+        ['2x y^2 z', '2 x^1 y^2 z^1'],
+    ])
+
     suite('adding exponent of one', rules.ADD_EXPONENT_OF_ONE, [
         ['x^2 * x', 'x^2 * x^1'],
-        ['x^2 * 2 * x * x', ''],
-        ['x + 2 * x', '']
+        ['x^2 * 2 * x * x', 'x^2 * 2 * x^1 * x^1'],
+        ['2x + 3x^2 * x y z', '2 x + 3 x^2 * (x^1 * y^1 * z^1)'],
     ])
+
     suite('collects like terms', rules.COLLECT_LIKE_TERMS, [
         ['2x + 1 - 2x', '(2 x - 2 x) + 1'],
         ['2x + 1 - x', '(2 x - x) + 1'],
