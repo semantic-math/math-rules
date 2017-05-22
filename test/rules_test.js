@@ -303,14 +303,6 @@ describe('rules', () => {
         ['x^-a / x^-b', 'x^(-a - -b)'],
     ])
 
-
-    suite('multiplying polynomials', rules.MULTIPLY_POLYNOMIALS, [
-        ['x^2 * x^1', '1 x^3'],
-        ['3x^2 * x^2', '3 x^4'],
-        ['x^3 * 2y^2', '2 (x^3 y^2)'],
-        ['x^3 + 2x + 3x^1 * 5x^1', 'x^3 + 2 x + 15 x^2'],
-    ])
-
     suite('power of a product', rules.POWER_OF_A_PRODUCT, [
         ['(2*3)^x', '2^x * 3^x'],
         ['(2*3*5)^x', '2^x * 3^x * 5^x'],
