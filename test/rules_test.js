@@ -200,6 +200,15 @@ describe('rules', () => {
         ['x^(|-(x + 1)|)', 'x^(x + 1)'],
     ])
 
+    suite('cancel exponent', rules.CANCEL_EXPONENT, [
+        ['nthRoot(x^2, 4)', 'x^2']
+    ])
+
+    suite('nthRoot value', rules.NTH_ROOT_VALUE, [
+        ['nthRoot(4)', '2'],
+        ['nthRoot(16)', '4']
+    ])
+
     suite('collects like terms', rules.COLLECT_LIKE_TERMS, [
         ['2x + 1 - 2x', '(2 x - 2 x) + 1'],
         ['2x + 1 - x', '(2 x - x) + 1'],
