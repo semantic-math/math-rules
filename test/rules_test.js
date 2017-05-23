@@ -165,7 +165,7 @@ describe('rules', () => {
         ['x^((x + 1) / -1)', 'x^(-(x + 1) / 1)'],
     ])
 
-    suite('add numerators', rules.COMBINE_NUMERATORS, [
+    suite('add numerators', rules.ADD_NUMERATORS, [
         ['1/3 + 2/3', '(1 + 2) / 3'],
         ['1/x + 2/x + 3/x', '(1 + 2 + 3) / x'],
         ['2/3 - 1/3', '(2 - 1) / 3'],
