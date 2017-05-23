@@ -218,7 +218,7 @@ describe('rules', () => {
     suite('adding exponent of one', rules.ADD_EXPONENT_OF_ONE, [
         ['x^2 * x', 'x^2 * x^1'],
         ['x^2 * 2 * x * x', 'x^2 * 2 * x^1 * x^1'],
-        ['2x + 3x^2 * x y z', '2 x + 3 x^2 * (x^1 * y^1 * z^1)'],
+        ['2x + 3x^2 * x y z', '2 x + 3 x^2 * x^1 y^1 z^1'],
     ])
 
     suite('collects like terms', rules.COLLECT_LIKE_TERMS, [
