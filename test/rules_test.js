@@ -224,7 +224,7 @@ describe('rules', () => {
         ['nthRoot(c^8, 3)', 'nthRoot(c^8, 3)'],
         ['nthRoot(d^10, 10)', 'd^1'],
         ['nthRoot(x^2)', 'x^1'],
-        ['nthRoot(6x^2 y^2 z^2, 2)', '']
+        //['nthRoot(6x^2 y^2 z^2, 2)', '']
     ])
 
     suite('combine under root', rules.COMBINE_UNDER_ROOT, [
@@ -256,7 +256,9 @@ describe('rules', () => {
     ])
 
     suite('group terms by root', rules.GROUP_TERMS_BY_ROOT, [
-        ['nthRoot(2 * 2 * 2 * 3, 2)', 'nthRoot((2 * 2) * 2, 2)']
+        ['nthRoot(2 * 2 * 2 * 3, 2)', 'nthRoot((2 * 2) * 2 * 3, 2)'],
+        ['nthRoot(2 * 3 * 3 * 2, 3)', 'nthRoot((2 * 2) * (3 * 3), 3)'],
+        ['nthRoot(5 * 7 * 9 * 7 * 7 * 7, 4)', 'nthRoot(5 * (7 * 7 * 7 * 7) * 9, 4)']
     ])
 
     suite('nthRoot value', rules.NTH_ROOT_VALUE, [
