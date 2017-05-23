@@ -210,8 +210,35 @@ describe('rules', () => {
         ['x^(|-(x + 1)|)', 'x^(x + 1)'],
     ])
 
+    suite('simplify fraction', rules.SIMPLIFY_FRACTION, [
+        ['1/3', '1 / 3'],
+        ['2/6', '1 / 3'],
+        ['15/24', '5 / 8']
+    ])
+
     suite('cancel exponent', rules.CANCEL_EXPONENT, [
-        ['nthRoot(x^2, 4)', 'x^2']
+        ['nthRoot(x^2, 4)', 'nthRoot(x^1, 2)'],
+        ['nthRoot(y^3, 4)', 'nthRoot(y^3, 4)'],
+        ['nthRoot(a^15, 24)', 'nthRoot(a^5, 8)'],
+        ['nthRoot(b^4, 2)', 'b^2'],
+        ['nthRoot(c^8, 3)', 'nthRoot(c^8, 3)'],
+        ['nthRoot(d^10, 10)', 'd^1'],
+        ['nthRoot(6x^2 y^2 z^2, 2)', '']
+    ])
+
+    suite('combine under root', rules.COMBINE_UNDER_ROOT, [
+        ['nthRoot(2, 2) * nthRoot(3, 2)', 'nthRoot(2 * 3, 2)'],
+        ['nthRoot(4, 3) * nthRoot(3, 3)', 'nthRoot(4 * 3, 3)']
+    ])
+
+    suite('distribute nthRoot', rules.DISTRIBUTE_NTH_ROOT, [
+        ['nthRoot(2 * x)', 'nthRoot(2) * nthRoot(x)'],
+        ['nthRoot(3 * 3 * x)', 'nthRoot(3) * nthRoot(3) * nthRoot(x)']
+    ])
+
+    suite('convert multiplication to exponent', rules.CONVERT_MULTIPLICATION_TO_EXPONENT, [
+        ['2^1 * 2^1 * 2^3', '2^5'],
+        ['3^2 * 3^1 * 3^20', '3^23']
     ])
 
     suite('nthRoot value', rules.NTH_ROOT_VALUE, [
