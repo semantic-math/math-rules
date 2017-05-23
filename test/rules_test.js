@@ -223,6 +223,7 @@ describe('rules', () => {
         ['nthRoot(b^4, 2)', 'b^2'],
         ['nthRoot(c^8, 3)', 'nthRoot(c^8, 3)'],
         ['nthRoot(d^10, 10)', 'd^1'],
+        ['nthRoot(x^2)', 'x^1'],
         ['nthRoot(6x^2 y^2 z^2, 2)', '']
     ])
 
@@ -239,6 +240,23 @@ describe('rules', () => {
     suite('convert multiplication to exponent', rules.CONVERT_MULTIPLICATION_TO_EXPONENT, [
         ['2^1 * 2^1 * 2^3', '2^5'],
         ['3^2 * 3^1 * 3^20', '3^23']
+    ])
+
+    suite('evaluate distributed nthRoot', rules.EVALUATE_DISTRIBUTED_NTH_ROOT, [
+        ['nthRoot(4) * nthRoot(x^2)', '2 * x^1'],
+        ['nthRoot(x^3) * nthRoot(36)', 'nthRoot(x^3, 2) * 6']
+    ])
+
+    suite('factor into prime', rules.FACTOR_INTO_PRIME, [
+        ['12' ,'2 * 2 * 3'],
+        ['36', '2 * 2 * 3 * 3'],
+        ['91', '7 * 13'],
+        ['2', '2'],
+        ['1', '1']
+    ])
+
+    suite('group terms by root', rules.GROUP_TERMS_BY_ROOT, [
+        ['nthRoot(2 * 2 * 2 * 3, 2)', 'nthRoot((2 * 2) * 2, 2)']
     ])
 
     suite('nthRoot value', rules.NTH_ROOT_VALUE, [
