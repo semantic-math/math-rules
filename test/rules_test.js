@@ -32,6 +32,13 @@ describe('rules', () => {
         ['x^(--(x + 1))', 'x^(x + 1)']
     ])
 
+    suite('rearrange coefficient', rules.REARRANGE_COEFF, [
+        ['y^3 * 5', '5 y^3'],
+        ['yz * 3', '3 yz'],
+        // TODO: handle this case better
+        //['3x^2 * 5', '5 (3 x^2)']
+    ])
+
     suite('division by negative one', rules.DIVISION_BY_NEGATIVE_ONE, [
         ['2 / -1','-2'],
         ['x / -1','-x'],
@@ -232,6 +239,12 @@ describe('rules', () => {
         ['x y + 1 + 3 y x', '(x y + 3 x y) + 1'],
         ['x^2 + 2x^2 - 3x^3 - 4x^3', '(x^2 + 2 x^2) + (-3 x^3 - 4 x^3)'],
         ['2x + 7y + 5 + 3y + 9x + 11', '(2 x + 9 x) + (7 y + 3 y) + (5 + 11)'],
+    ])
+
+    suite('fractional polynomials', rules.FRACTIONAL_POLYNOMIALS, [
+        ['2x/3', '2 / 3 x'],
+        ['3y^2/3', '3 / 3 y^2'],
+        ['3x + 2x/3','3 x + 2 / 3 x']
     ])
 
     suite('add polynomials', rules.ADD_POLYNOMIAL_TERMS, [
