@@ -438,6 +438,16 @@ describe('rules', () => {
     suite('swap sides', rules.SWAP_SIDES, [
         ['2 = x', 'x = 2'],
     ])
+
+    suite('negative', rules.NEGATIVE, [
+        ['2', '-2'],
+        ['x^2', '-3']
+    ])
+
+    suite('factor symbol', rules.FACTOR_SYMBOL, [
+        ['x^2 + x^5 + x^16', ''],
+        ['x^2 - x^4 - x^4', '']
+    ])
 })
 
 describe('canApplyRule', () => {
