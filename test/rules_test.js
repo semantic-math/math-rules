@@ -219,7 +219,9 @@ describe('rules', () => {
 
     suite('simplify fraction', rules.SIMPLIFY_FRACTION, [
         ['0/3' ,'0'],
-        ['-2/6', '1 / 3'],
+        ['-2/6', '-1 / 3'],
+        ['3/-6', '-1 / 2'],
+        ['-3/-6', '1 / 2'],
         ['1/3', '1 / 3'],
         ['2/6', '1 / 3'],
         ['15/24', '5 / 8']
@@ -234,9 +236,10 @@ describe('rules', () => {
         ['nthRoot(d^10, 10)', 'd^1'],
         ['nthRoot(x^2)', 'x^1'],
         // negative exponents and indexes
-        ['nthRoot(x^-2, 4)', 'nthRoot(x^1, 2)'],
-        ['nthRoot(y^-6, -3)', 'nthRoot(y^5, -3)'],
-        ['nthRoot(z^-3, 3)', 'z^1']
+        ['nthRoot(x^-2, 4)', 'nthRoot(x^-1, 2)'],
+        ['nthRoot(x^7, -7)', 'x^-1'],
+        ['nthRoot(y^-6, -3)', 'y^2'],
+        ['nthRoot(z^-3, 3)', 'z^-1'],
     ])
 
     // TODO: fix this function
