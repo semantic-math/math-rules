@@ -310,6 +310,8 @@ describe('rules', () => {
         ['3x^2 * x^2', '(3 * 1) (x^2 * x^2)'],
         ['x^3 * 2y^2', '(1 * 2) (x^3 * y^2)'],
         ['x^3 + 2x + 3x^1 * 5x^1', 'x^3 + 2 x + (3 * 5) (x^1 * x^1)'],
+        ['x^3 * x^3 * x^3', '(1 * 1 * 1) (x^3 * x^3 * x^3)'],
+        ['x^1 * x^1 * x^1 * x^1 * x^1', '(1 * 1 * 1 * 1 * 1) (x^1 * x^1 * x^1 * x^1 * x^1)']
     ])
 
     suite('multiplying polynomials', rules.MULTIPLY_POLYNOMIAL_TERMS, [
