@@ -232,11 +232,12 @@ describe('rules', () => {
         ['nthRoot(d^10, 10)', 'd^1'],
         ['nthRoot(x^2)', 'x^1'],
     ])
-
+    /*
     suite('combine under root', rules.COMBINE_UNDER_ROOT, [
         ['nthRoot(2, 2) * nthRoot(3, 2)', 'nthRoot(2 * 3, 2)'],
         ['nthRoot(4, 3) * nthRoot(3, 3)', 'nthRoot(4 * 3, 3)']
     ])
+    */
 
     suite('distribute nthRoot', rules.DISTRIBUTE_NTH_ROOT, [
         ['nthRoot(2 * x)', 'nthRoot(2) * nthRoot(x)'],
@@ -248,10 +249,12 @@ describe('rules', () => {
         ['3^2 * 3^1 * 3^20', '3^23']
     ])
 
+    /*
     suite('evaluate distributed nthRoot', rules.EVALUATE_DISTRIBUTED_NTH_ROOT, [
         ['nthRoot(4) * nthRoot(x^2)', '2 * x^1'],
         ['nthRoot(x^3) * nthRoot(36)', 'nthRoot(x^3, 2) * 6']
     ])
+    */
 
     suite('factor into prime', rules.FACTOR_INTO_PRIME, [
         ['12' ,'2 * 2 * 3'],
