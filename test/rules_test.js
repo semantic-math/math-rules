@@ -235,36 +235,36 @@ describe('rules', () => {
         ['nthRoot(c^8, 3)', 'nthRoot(c^8, 3)'],
         ['nthRoot(d^10, 10)', 'd^1'],
         ['nthRoot(x^2)', 'x^1'],
-        // negative exponents and indexes
         ['nthRoot(x^-2, 4)', 'nthRoot(x^-1, 2)'],
         ['nthRoot(x^7, -7)', 'x^-1'],
         ['nthRoot(y^-6, -3)', 'y^2'],
         ['nthRoot(z^-3, 3)', 'z^-1'],
     ])
 
-    // TODO: fix this function
-    /*
     suite('combine under root', rules.COMBINE_UNDER_ROOT, [
         ['nthRoot(2, 2) * nthRoot(3, 2)', 'nthRoot(2 * 3, 2)'],
-        ['nthRoot(4, 3) * nthRoot(3, 3)', 'nthRoot(4 * 3, 3)']
+        ['nthRoot(4, 5) * nthRoot(5, 5) * nthRoot(6,5)', 'nthRoot(4 * 5 * 6, 5)'],
+        ['nthRoot(x, 2) * nthRoot(y, 2)', 'nthRoot(x * y, 2)'],
+        ['nthRoot(-2, 3) * nthRoot(-8, 3) * nthRoot(x^2, 3)', 'nthRoot(-2 * -8 * x^2, 3)'],
+        ['nthRoot(2, x^2) * nthRoot(3, x^2)', 'nthRoot(2 * 3, x^2)']
     ])
-    */
 
     suite('distribute nthRoot', rules.DISTRIBUTE_NTH_ROOT, [
-        ['nthRoot(2 * x)', 'nthRoot(2) * nthRoot(x)'],
-        ['nthRoot(3 * 3 * x)', 'nthRoot(3) * nthRoot(3) * nthRoot(x)']
+        ['nthRoot(2 * x, 2)', 'nthRoot(2, 2) * nthRoot(x, 2)'],
+        ['nthRoot(3 * 3 * x, 3)', 'nthRoot(3, 3) * nthRoot(3, 3) * nthRoot(x, 3)']
     ])
  
     suite('convert multiplication to exponent', rules.CONVERT_MULTIPLICATION_TO_EXPONENT, [
         ['2^1 * 2^1 * 2^3', '2^5'],
-        ['3^2 * 3^1 * 3^20', '3^23']
+        ['3^2 * 3^1 * 3^20', '3^23'],
     ])
-    /*
+
     suite('evaluate distributed nthRoot', rules.EVALUATE_DISTRIBUTED_NTH_ROOT, [
-        ['nthRoot(4) * nthRoot(x^2)', '2 * x^1'],
-        ['nthRoot(x^3) * nthRoot(36)', 'nthRoot(x^3, 2) * 6']
+        ['nthRoot(4, 2) * nthRoot(x^2, 2)', '2 * x^1'],
+        ['nthRoot(x^3, 3) * nthRoot(36, 2)', 'x^1 * 6'],
+        // TODO: floating point error
+        // ['nthRoot(x^-6, -4) * nthRoot(64, 3) * nthRoot(z^-50, 100)', 'nthRoot(x^3, 2) * 3.9999999999999996 * nthRoot(z^-1, 2)']
     ])
-    */
 
     suite('factor into prime', rules.FACTOR_INTO_PRIME, [
         ['12' ,'2 * 2 * 3'],
@@ -277,14 +277,16 @@ describe('rules', () => {
     suite('group terms by root', rules.GROUP_TERMS_BY_ROOT, [
         ['nthRoot(2 * 2 * 2 * 3, 2)', 'nthRoot((2 * 2) * 2 * 3, 2)'],
         ['nthRoot(2 * 3 * 3 * 2, 3)', 'nthRoot((2 * 2) * (3 * 3), 3)'],
-        ['nthRoot(5 * 7 * 9 * 7 * 7 * 7, 4)', 'nthRoot(5 * (7 * 7 * 7 * 7) * 9, 4)']
+        ['nthRoot(5 * 7 * 9 * 7 * 7 * 7, 4)', 'nthRoot(5 * (7 * 7 * 7 * 7) * 9, 4)'],
+        // TODO: handle this case
+        // ['nthRoot(x^1 * x^1 * x^2 * y^3)', '']
     ])
 
     suite('nthRoot value', rules.NTH_ROOT_VALUE, [
         ['nthRoot(4, 2)', '2'],
         ['nthRoot(16, 2)', '4'],
-        // TODO: fix this case
-        ['nthRoot(-8, 3)', ''],
+        // TODO: fix this case (should return -2)
+        // ['nthRoot(-8, 3)', ''],
         ['nthRoot(4, -2)', '.5'],
         ['nthRoot(16, -2)', '.25'],
     ])

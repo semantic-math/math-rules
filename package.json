@@ -8,7 +8,7 @@
   "dependencies": {
     "math-evaluator": "^0.0.4",
     "math-nodes": "^0.1.0",
-    "math-parser": "^0.10.1",
+    "math-parser": "^0.10.2",
     "math-rules": "^0.2.10",
     "math-traverse": "^0.2.1"
   },

@@ -1946,11 +1946,15 @@ math-nodes@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.0.tgz#87cb873f5d260ecffc4a04e1ed0ffe85cdffec1a"
 
-math-parser@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.10.1.tgz#28dc8278b617bbc9ba3037199e17323aa006e252"
+math-nodes@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.2.tgz#7d86bfd460a9d8506fa23378adc64b8c25bd1d4f"
+
+math-parser@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/math-parser/-/math-parser-0.10.2.tgz#fe718b1077113542b047d76b9d7f49db1f6ed0f0"
   dependencies:
-    math-nodes "^0.1.0"
+    math-nodes "^0.1.2"
     math-traverse "^0.2.1"
 
 math-parser@^0.9.0:
