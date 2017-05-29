@@ -1,6 +1,6 @@
 {
   "name": "math-rules",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "main": "dist/math-rules.js",
   "repository": "https://github.com/semantic-math/math-rules",
   "author": "Kevin Barabash <kevinb7@gmail.com>",
@@ -8,7 +8,7 @@
   "dependencies": {
     "math-evaluator": "^0.0.4",
     "math-nodes": "^0.1.0",
-    "math-parser": "^0.9.0",
+    "math-parser": "^0.10.3",
     "math-traverse": "^0.2.1"
   },
   "devDependencies": {
