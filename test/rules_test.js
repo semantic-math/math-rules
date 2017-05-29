@@ -260,13 +260,11 @@ describe('rules', () => {
         ['3^2 * 3^1 * 3^20', '3^23'],
     ])
 
-    /*
     suite('evaluate distributed nthRoot', rules.EVALUATE_DISTRIBUTED_NTH_ROOT, [
         ['nthRoot(4, 2) * nthRoot(x^2, 2)', '2 * x^1'],
         ['nthRoot(x^3, 3) * nthRoot(36, 2)', 'x^1 * 6'],
         ['nthRoot(x^-6, -4) * nthRoot(64, 3) * nthRoot(z^-50, 100)', 'nthRoot(x^3, 2) * 4 * nthRoot(z^-1, 2)']
     ])
-    */
 
     suite('factor into prime', rules.FACTOR_INTO_PRIME, [
         ['12' ,'2 * 2 * 3'],
@@ -284,15 +282,13 @@ describe('rules', () => {
         ['nthRoot(xyz * xyz * x y z * x y z, 4)', 'nthRoot((xyz * xyz) * (x y z * x y z), 4)']
     ])
 
-    /*
     suite('nthRoot value', rules.NTH_ROOT_VALUE, [
         ['nthRoot(4, 2)', '2'],
         ['nthRoot(16, 2)', '4'],
-        ['nthRoot(-8, 3)', '2'],
+        ['nthRoot(-8, 3)', '-2'],
         ['nthRoot(4, -2)', '.5'],
         ['nthRoot(16, -2)', '.25'],
     ])
-    */
     
     suite('collects like terms', rules.COLLECT_LIKE_TERMS, [
         ['2x + 1 - 2x', '(2 x - 2 x) + 1'],
