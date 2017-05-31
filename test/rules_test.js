@@ -445,7 +445,7 @@ describe('rules', () => {
         ['1a^2 + 2a b + 1b^2', '(1 a^1 + 1 b^1)^2'],
         ['1x^2 + 10x + 25', '(1 x^1 + 5)^2'],
         // TODO: handle this case
-        ['1x^2 + bx + (b/2)^4', '']
+        //['1x^2 + bx + (b/2)^4', '(x + b/2)^2']
     ])
 
     // SOLVING FOR A VARIABLE
