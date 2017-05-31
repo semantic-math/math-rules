@@ -437,8 +437,15 @@ describe('rules', () => {
         ['(1 x^1)^2 - (1 y^1)^2', '(1 x^1 + 1 y^1) (1 x^1 - 1 y^1)']
     ])
 
-    suite('factor perfect squares', rules.FACTOR_PERFECT_SQUARE, [
-        ['4x^2 - 12x + 9', '(x + 1)^2']
+    suite('factor perfect squares', rules.FACTOR_PERFECT_SQUARE_TRINOMIALS, [
+        ['4x^2 + 12x + 9', '(2 x^1 + 3)^2'],
+        ['4x^2 - 12x + 9', '(2 x^1 - 3)^2'],
+        ['4x^4 - 12x^2 + 9', '(2 x^2 - 3)^2'],
+        ['4x^2 - 12x y + 9y^2', '(2 x^1 - 3 y^1)^2'],
+        ['1a^2 + 2a b + 1b^2', '(1 a^1 + 1 b^1)^2'],
+        ['1x^2 + 10x + 25', '(1 x^1 + 5)^2'],
+        // TODO: handle this case
+        ['1x^2 + bx + (b/2)^4', '']
     ])
 
     // SOLVING FOR A VARIABLE
