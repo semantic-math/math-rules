@@ -232,16 +232,15 @@ describe('rules', () => {
         ['nthRoot(d^10, 10)', 'd^1'],
         ['nthRoot(x^2)', 'x^1'],
     ])
-    /*
+
     suite('combine under root', rules.COMBINE_UNDER_ROOT, [
         ['nthRoot(2, 2) * nthRoot(3, 2)', 'nthRoot(2 * 3, 2)'],
         ['nthRoot(4, 3) * nthRoot(3, 3)', 'nthRoot(4 * 3, 3)']
     ])
-    */
 
     suite('distribute nthRoot', rules.DISTRIBUTE_NTH_ROOT, [
-        ['nthRoot(2 * x)', 'nthRoot(2) * nthRoot(x)'],
-        ['nthRoot(3 * 3 * x)', 'nthRoot(3) * nthRoot(3) * nthRoot(x)']
+        ['nthRoot(2 * x, 2)', 'nthRoot(2, 2) * nthRoot(x, 2)'],
+        ['nthRoot(3 * 3 * x, 2)', 'nthRoot(3, 2) * nthRoot(3, 2) * nthRoot(x, 2)']
     ])
 
     suite('convert multiplication to exponent', rules.CONVERT_MULTIPLICATION_TO_EXPONENT, [
@@ -249,12 +248,10 @@ describe('rules', () => {
         ['3^2 * 3^1 * 3^20', '3^23']
     ])
 
-    /*
     suite('evaluate distributed nthRoot', rules.EVALUATE_DISTRIBUTED_NTH_ROOT, [
         ['nthRoot(4) * nthRoot(x^2)', '2 * x^1'],
         ['nthRoot(x^3) * nthRoot(36)', 'nthRoot(x^3, 2) * 6']
     ])
-    */
 
     suite('factor into prime', rules.FACTOR_INTO_PRIME, [
         ['12' ,'2 * 2 * 3'],
@@ -442,14 +439,25 @@ describe('rules', () => {
         ['2 = x', 'x = 2'],
     ])
 
-    suite('negative', rules.NEGATIVE, [
-        ['2', '-2'],
-        ['x^2', '-3']
+    /*
+    suite('factor symbol', rules.FACTOR_SYMBOL, [
+        ['4x^2 + 3x^5 + 6x^16', ''],
+        ['x^2 - x^4 - x^4', '']
+    ])
+    */
+
+    suite('factor difference of squares helper', rules.FACTOR_DIFFERENCE_OF_SQUARES_HELPER, [
+        ['4(xy)^2 - 16x^2', '(2 xy^1)^2 - (4 x^1)^2'],
+        ['1 x^2 - 1 y^2', '(1 x^1)^2 - (1 y^1)^2']
     ])
 
-    suite('factor symbol', rules.FACTOR_SYMBOL, [
-        ['x^2 + x^5 + x^16', ''],
-        ['x^2 - x^4 - x^4', '']
+    suite('factor difference of squares', rules.FACTOR_DIFFERENCE_OF_SQUARES, [
+        ['(2x)^2 - (3y)^2', '(2 x + 3 y) (2 x - 3 y)'],
+        ['(1 x^1)^2 - (1 y^1)^2', '(1 x^1 + 1 y^1) (1 x^1 - 1 y^1)']
+    ])
+
+    suite('factor perfect squares', rules.FACTOR_PERFECT_SQUARE, [
+        ['2x^2 + 2x + 1', '(x + 1)^2']
     ])
 })
 
