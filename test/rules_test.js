@@ -448,6 +448,10 @@ describe('rules', () => {
         //['1x^2 + bx + (b/2)^4', '(x + b/2)^2']
     ])
 
+    suite('factor sum product rule', rules.FACTOR_SUM_PRODUCT_RULE, [
+        ['12x^2 + 17x + 6', '(1 x^1 + 1)(1 x^1 + 2)'],
+    ])
+
     // SOLVING FOR A VARIABLE
     suite('add to both sides', rules.ADD_TO_BOTH_SIDES, [
         ['x - 3 = 2', 'x - 3 + 3 = 2 + 3'],
