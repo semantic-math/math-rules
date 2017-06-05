@@ -253,7 +253,7 @@ describe('rules', () => {
         ['nthRoot(3 * 3 * x, 3)', 'nthRoot(3, 3) * nthRoot(3, 3) * nthRoot(x, 3)'],
         ['nthRoot(x^2 * y^3 * z^4)', 'nthRoot(x^2, 2) * nthRoot(y^3, 2) * nthRoot(z^4, 2)']
     ])
- 
+
     suite('convert multiplication to exponent', rules.CONVERT_MULTIPLICATION_TO_EXPONENT, [
         ['2^1 * 2^1 * 2^3', '2^5'],
         ['3^2 * 3^1 * 3^20', '3^23'],
@@ -274,7 +274,7 @@ describe('rules', () => {
         ['2', '2'],
         ['1', '1'],
     ])
-    
+
     suite('group terms by root', rules.GROUP_TERMS_BY_ROOT, [
         ['nthRoot(2 * 2 * 2 * 3, 2)', 'nthRoot((2 * 2) * 2 * 3, 2)'],
         ['nthRoot(2 * 3 * 3 * 2, 3)', 'nthRoot((2 * 2) * (3 * 3), 3)'],
@@ -290,7 +290,7 @@ describe('rules', () => {
         ['nthRoot(4, -2)', '.5'],
         ['nthRoot(16, -2)', '.25'],
     ])
-    
+
     suite('collects like terms', rules.COLLECT_LIKE_TERMS, [
         ['2x + 1 - 2x', '(2 x - 2 x) + 1'],
         ['2x + 1 - x', '(2 x - x) + 1'],
