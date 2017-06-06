@@ -1939,7 +1939,6 @@ lru-cache@^4.0.1:
 math-evaluator@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/math-evaluator/-/math-evaluator-0.0.9.tgz#09ec457bd3cf034e8852516399f95ea3cde4b657"
-  >>>>>>> semantic/master
     dependencies:
       babel-loader "^7.0.0"
 

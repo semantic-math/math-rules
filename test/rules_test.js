@@ -26,7 +26,7 @@ suite.only = (title, rule, tests) => describe.only(title, () => {
 
 describe('rules', () => {
     suite('negation', rules.NEGATION, [
-        ['--1','1'],
+        ['1 + --1','1 + 1'],
         ['--x','x'],
         ['--(x + 1)', 'x + 1'],
         ['x^(--(x + 1))', 'x^(x + 1)']
@@ -62,7 +62,7 @@ describe('rules', () => {
     ])
 
     suite('multiply by zero reverse', rules.MULTIPLY_BY_ZERO_REVERSE, [
-        ['0 * 2', '0'],
+        ['1 * 0 * 2', '1 * 0'],
         ['0 * x', '0'],
         ['0 x', '0'],
         ['0 * (x + 1)', '0'],
