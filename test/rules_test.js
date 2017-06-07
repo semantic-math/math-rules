@@ -438,12 +438,11 @@ describe('rules', () => {
     ])
 
     suite('factor perfect squares', rules.FACTOR_PERFECT_SQUARE_TRINOMIALS, [
-        ['4x^2 + 12x + 9', '(2 x^1 + 3)^2'],
-        ['4x^2 - 12x + 9', '(2 x^1 - 3)^2'],
+        ['4x^2 + 12x^1 + 9', '(2 x^1 + 3)^2'],
         ['4x^4 - 12x^2 + 9', '(2 x^2 - 3)^2'],
-        ['4x^2 - 12x y + 9y^2', '(2 x^1 - 3 y^1)^2'],
-        ['1a^2 + 2a b + 1b^2', '(1 a^1 + 1 b^1)^2'],
-        ['1x^2 + 10x + 25', '(1 x^1 + 5)^2'],
+        ['4x^2 - 12x^1y^1 + 9y^2', '(2 x^1 - 3 y^1)^2'],
+        ['1a^2 + 2a^1 b^1 + 1b^2', '(1 a^1 + 1 b^1)^2'],
+        ['1x^2 + 10x^1 + 25', '(1 x^1 + 5)^2'],
         // TODO: handle this case
         //['1x^2 + bx + (b/2)^4', '(x + b/2)^2']
     ])
@@ -471,10 +470,8 @@ describe('rules', () => {
         ['12x^2 + 17 x^1 y^1 + 6y^2', '(3 x^1 + 2 y^1) (4 x^1 + 3 y^1)'],
         ['12x^2 + 17x^1 + 6', '(3 x^1 + 2) (4 x^1 + 3)'],
         ['4x^2 + 12x^1 + 9', '(2 x^1 + 3) (2 x^1 + 3)'],
-        ['4x^4 - 12x^2 + 9','(2 x^2 - 3) (2 x^2 - 3)'],
     ])
 
-    /*
     // SOLVING FOR A VARIABLE
     suite('add to both sides', rules.ADD_TO_BOTH_SIDES, [
     ['x - 3 = 2', 'x - 3 + 3 = 2 + 3'],
@@ -503,7 +500,6 @@ describe('rules', () => {
     suite('swap sides', rules.SWAP_SIDES, [
     ['2 = x', 'x = 2'],
     ])
-    */
 })
 
 describe('canApplyRule', () => {
