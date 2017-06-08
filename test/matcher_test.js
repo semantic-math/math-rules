@@ -13,6 +13,8 @@ import {
     patternToMatchFn,
 } from '../lib/matcher'
 
+import {isVariableFactor} from '../lib/rules/collect-like-terms'
+
 // returns the rewritten string
 const rewriteString = (matchPattern, rewritePattern, input) => {
     const rule = defineRuleString(matchPattern, rewritePattern)
@@ -216,6 +218,84 @@ describe('matcher', () => {
 
             assert.equal(applyRuleString(rule, '(1 - 2 + 3) x'), '2 x')
             assert.equal(applyRuleString(rule, '(1 + 2 + 3) x'), '6 x')
+        })
+    })
+
+    describe('partial variable length patterns', () => {
+        it('match polynomials', () => {
+            const {placeholders, indexes} = matchNode(
+                parse('#a * #b_0 * ...'),
+                parse('5 * x^2 * y * z * 10'),
+                {
+                    a: query.isNumber,      // isNumber is probably sufficient
+                    b: isVariableFactor,    // match 'x', 'y^2', etc.
+                }
+            )
+
+            assert.equal(print(placeholders.a), '5')
+            assert.equal(print(placeholders.b[0]), 'x^2')
+            assert.equal(print(placeholders.b[1]), 'y')
+            assert.equal(print(placeholders.b[2]), 'z')
+            // TODO: use a real array for placeholders
+            assert.equal(placeholders.b[3], undefined)
+        })
+
+        it('match polynomials with additional factors at the start', () => {
+            const {placeholders, indexes} = matchNode(
+                parse('#a * #b_0 * ...'),
+                parse('2 * 5 * x^2 * y * z'),
+                {
+                    a: query.isNumber,      // isNumber is probably sufficient
+                    b: isVariableFactor,    // match 'x', 'y^2', etc.
+                }
+            )
+
+            assert.equal(print(placeholders.a), '5')
+            assert.equal(print(placeholders.b[0]), 'x^2')
+            assert.equal(print(placeholders.b[1]), 'y')
+            assert.equal(print(placeholders.b[2]), 'z')
+            // TODO: use a real array for placeholders
+            assert.equal(placeholders.b[3], undefined)
+        })
+
+        it('match polynomials with the coefficient at the end', () => {
+            const {placeholders, indexes} = matchNode(
+                parse('#b_0 * ... * #a'),
+                parse('2 * x^2 * y * z * 5'),
+                {
+                    a: query.isNumber,      // isNumber is probably sufficient
+                    b: isVariableFactor,    // match 'x', 'y^2', etc.
+                }
+            )
+
+            assert.equal(print(placeholders.a), '5')
+            assert.equal(print(placeholders.b[0]), 'x^2')
+            assert.equal(print(placeholders.b[1]), 'y')
+            assert.equal(print(placeholders.b[2]), 'z')
+            // TODO: use a real array for placeholders
+            assert.equal(placeholders.b[3], undefined)
+        })
+
+        it('match multiple variable length sections', () => {
+            const {placeholders, indexes} = matchNode(
+                parse('#b_0 * ... * #a * #c_0 * ...'),
+                parse('2 * x^2 * y * z * 5 * a^2 * b * c'),
+                {
+                    a: query.isNumber,      // isNumber is probably sufficient
+                    b: isVariableFactor,    // match 'x', 'y^2', etc.
+                }
+            )
+
+            assert.equal(print(placeholders.a), '5')
+            assert.equal(print(placeholders.b[0]), 'x^2')
+            assert.equal(print(placeholders.b[1]), 'y')
+            assert.equal(print(placeholders.b[2]), 'z')
+            // TODO: use a real array for placeholders
+            assert.equal(placeholders.b[3], undefined)
+            assert.equal(print(placeholders.c[0]), 'a^2')
+            assert.equal(print(placeholders.c[1]), 'b')
+            assert.equal(print(placeholders.c[2]), 'c')
+            assert.equal(placeholders.c[3], undefined)
         })
     })
 })
