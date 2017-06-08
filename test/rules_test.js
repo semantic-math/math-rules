@@ -393,6 +393,24 @@ describe('rules', () => {
         ['(5 / 3)^x', '5^x / 3^x'],
     ])
 
+    suite('negative exponent', rules.NEGATIVE_EXPONENT, [
+        ['2^-2', '1 / 2^2'],
+        ['2^-(5x)','1 / 2^(5 x)'],
+        ['(3x)^-(2 - 4x)', '1 / (3 x)^(2 - 4 x)'],
+    ])
+
+    suite('to negative exponent', rules.TO_NEGATIVE_EXPONENT, [
+        ['1 / 2^2', '1 * 2^-2'],
+        ['x / 2^(-2)', 'x * 2^--2'],
+        ['(3 - x) / (x + 5)^3', '(3 - x) * (x + 5)^-3']
+    ])
+
+    suite('fractional exponents', rules.FRACTIONAL_EXPONENTS, [
+        ['a^(p/q)', 'a^(1 / q)^p'],
+        ['(a + b)^(2/3)', '(a + b)^(1 / 3)^2'],
+        ['a^((2 + x) / (2 - x))', 'a^(1 / (2 - x))^(2 + x)']
+    ])
+
     suite('break up fraction', rules.BREAK_UP_FRACTION, [
         ['(a + b) / 2', 'a / 2 + b / 2'],
         ['(a + b + c) / 2', 'a / 2 + b / 2 + c / 2'],
