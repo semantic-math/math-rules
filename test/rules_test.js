@@ -365,6 +365,12 @@ describe('rules', () => {
         ['(2^3)^x', '8^x'],
     ])
 
+    suite('adding exponent of one', rules.ADD_EXPONENT_OF_ONE, [
+        ['x^2 * x', 'x^2 * x^1'],
+        ['x^2 * 2 * x * x', 'x^2 * 2 * x^1 * x^1'],
+        ['2 + 3x^2 * x y z', '2 + 3 x^2 * (x^1 * y^1 * z^1)'],
+    ])
+
     suite('product rule', rules.PRODUCT_RULE, [
         ['10^2 * 10^5 * 10^3', '10^(2 + 5 + 3)'],
         ['x^a * x^b * x^c', 'x^(a + b + c)'],
@@ -382,19 +388,23 @@ describe('rules', () => {
     ])
 
     suite('multiplying coefficients', rules.MULTIPLY_COEFFICIENTS, [
-        ['x^2 * x^1', '(1 * 1) (x^2 * x^1)'],
+        ['x^2 * y^2', '(1 * 1) (x^2 * y^2)'],
+        ['x^2y^2z^2 * 2x^2', '(1 * 2) (x^2 * y^2 * z^2 * x^2)'],
         ['3x^2 * x^2', '(3 * 1) (x^2 * x^2)'],
-        ['x^3 * 2y^2', '(1 * 2) (x^3 * y^2)'],
-        ['x^3 + 2x + 3x^1 * 5x^1', 'x^3 + 2 x + (3 * 5) (x^1 * x^1)'],
+        ['x^3 * y^2', '(1 * 1) (x^3 * y^2)'],
+        ['x^3 + 2x^1 + 3x^1 * 5x^1', 'x^3 + 2 x^1 + (3 * 5) (x^1 * x^1)'],
         ['x^3 * x^3 * x^3', '(1 * 1 * 1) (x^3 * x^3 * x^3)'],
         ['x^1 * x^1 * x^1 * x^1 * x^1', '(1 * 1 * 1 * 1 * 1) (x^1 * x^1 * x^1 * x^1 * x^1)']
     ])
 
+    suite('simplfy coefficients', rules.SIMPLIFY_COEFFICIENTS, [
+        ['(3 * 2)(x^2 * y^3)', '6 (x^2 * y^3)'],
+    ])
+
     suite('multiplying polynomials', rules.MULTIPLY_POLYNOMIAL_TERMS, [
-        ['x^2 * x^1', '1 x^3'],
-        ['3x^2 * x^2', '3 x^4'],
-        ['x^3 * 2y^2', '2 (x^3 y^2)'],
-        ['x^3 + 2x + 3x^1 * 5x^1', 'x^3 + 2 x + 15 x^2'],
+        ['x^2 * x^1', 'x^3'],
+        ['x^3 * y^2', 'x^3 y^2'],
+        ['x^3 + x^1 + x^1 * x^1 * y^3', 'x^3 + x^1 + x^2 y^3'],
     ])
 
     suite('power of a product', rules.POWER_OF_A_PRODUCT, [
