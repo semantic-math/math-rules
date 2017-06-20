@@ -2379,11 +2379,7 @@ math-evaluator@^0.0.9:
   dependencies:
     babel-loader "^7.0.0"
 
-math-nodes@^0.1.2:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.5.tgz#dfd25c7a9458b91413288ebfcf525cd3a80af6c7"
-
-math-nodes@^0.1.6:
+math-nodes@^0.1.2, math-nodes@^0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.6.tgz#ac38eba233d24c7d3094a0e99035054e55058167"
 

@@ -1,6 +1,7 @@
 import {defineRule, definePatternRule, canApplyRule, applyRule, rewriteNode} from './lib/rule'
 import {flattenOperands} from './lib/utils'
-import * as rules from './lib/rule-list.js'
+import * as simple_rules from './lib/simple-rules.js'
+import * as factor_rules from './lib/factor-rules.js'
 
 export {
     applyRule,
@@ -9,5 +10,6 @@ export {
     defineRule,
     rewriteNode,
     flattenOperands,
-    rules,
+    simple_rules,
+    factor_rules,
 }
